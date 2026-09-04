@@ -1,6 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
-  Shield,
   UploadCloud,
   Brain,
   Zap,
@@ -60,8 +59,8 @@ export function AppNavbar({ currentPath, activeRoute }: NavbarProps) {
         {/* Brand Logo */}
         <Link to="/" className="group flex items-center gap-3 transition-transform active:scale-98">
           <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-primary to-ai p-0.5 shadow-lg shadow-primary/20 transition-all duration-300 group-hover:shadow-primary/40">
-            <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-card/90 backdrop-blur-sm">
-              <Shield className="h-5 w-5 text-primary transition-transform duration-300 group-hover:scale-110" />
+            <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-white overflow-hidden">
+              <img src="/logosih.png" alt="NetSage Logo" className="h-6 w-6 object-contain transition-transform duration-300 group-hover:scale-110" />
             </div>
             <span className="absolute -bottom-1 -right-1 flex h-3 w-3">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-pass opacity-75"></span>
