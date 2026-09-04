@@ -146,7 +146,7 @@ function extractHostname(config: string): string {
   ];
   for (const p of patterns) {
     const m = config.match(p);
-    if (m) return m[1];
+    if (m && m[1]) return m[1];
   }
   return "unknown-device";
 }
@@ -330,9 +330,23 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
 /* Stage 3 — deterministic security rules                              */
 /* ------------------------------------------------------------------ */
 
+export interface RawFlags {
+  telnetEnabled?: boolean;
+  weakAuth?: boolean;
+  loggingConfigured?: boolean;
+  ntpConfigured?: boolean;
+  httpEnabled?: boolean;
+  permissiveRule?: boolean;
+  unusedServices?: boolean;
+  unrestrictedAdmin?: boolean;
+  weakPasswordPolicy?: boolean;
+  sshEnabled?: boolean;
+  [key: string]: boolean | undefined;
+}
+
 interface Rule {
   id: string;
-  when: (f: Record<string, boolean>) => boolean;
+  when: (f: RawFlags) => boolean;
   severity: Severity;
   control: string;
   description: string;
@@ -348,7 +362,7 @@ interface Rule {
 const RULES: Rule[] = [
   {
     id: "CFG-001",
-    when: (f) => f.telnetEnabled,
+    when: (f) => Boolean(f.telnetEnabled),
     severity: "critical",
     control: "Management Access",
     description: "Telnet service enabled on the management plane",
@@ -368,7 +382,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-002",
-    when: (f) => f.weakAuth,
+    when: (f) => Boolean(f.weakAuth),
     severity: "high",
     control: "Authentication",
     description: "Weak or unencrypted local authentication without centralised AAA",
@@ -388,7 +402,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-003",
-    when: (f) => !f.loggingConfigured,
+    when: (f) => !Boolean(f.loggingConfigured),
     severity: "high",
     control: "Logging",
     description: "No remote syslog destination configured",
@@ -408,7 +422,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-004",
-    when: (f) => !f.ntpConfigured,
+    when: (f) => !Boolean(f.ntpConfigured),
     severity: "medium",
     control: "Time Synchronisation",
     description: "No NTP time source configured",
@@ -428,7 +442,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-005",
-    when: (f) => f.httpEnabled,
+    when: (f) => Boolean(f.httpEnabled),
     severity: "high",
     control: "Management Access",
     description: "Unencrypted HTTP management interface enabled",
@@ -448,7 +462,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-006",
-    when: (f) => f.permissiveRule,
+    when: (f) => Boolean(f.permissiveRule),
     severity: "critical",
     control: "Access Control",
     description: "Overly permissive any/any allow rule in the policy set",
@@ -468,7 +482,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-007",
-    when: (f) => f.unusedServices,
+    when: (f) => Boolean(f.unusedServices),
     severity: "medium",
     control: "Unused Services",
     description: "Non-essential services enabled (SNMP default community / HTTP)",
@@ -488,7 +502,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-008",
-    when: (f) => f.unrestrictedAdmin,
+    when: (f) => Boolean(f.unrestrictedAdmin),
     severity: "high",
     control: "Administrative Access",
     description: "Administrative access not restricted to trusted source networks",
@@ -508,7 +522,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-009",
-    when: (f) => f.weakPasswordPolicy,
+    when: (f) => Boolean(f.weakPasswordPolicy),
     severity: "medium",
     control: "Password Policy",
     description: "Password complexity / aging policy not enforced",
@@ -528,7 +542,7 @@ const RULES: Rule[] = [
   },
   {
     id: "CFG-010",
-    when: (f) => !f.sshEnabled,
+    when: (f) => !Boolean(f.sshEnabled),
     severity: "low",
     control: "Management Access",
     description: "No secure SSH management transport detected",
@@ -543,16 +557,22 @@ const RULES: Rule[] = [
       fortinet: { before: "set allowaccess ping https", after: "set allowaccess ping https ssh" },
       juniper: { before: "# no ssh stanza", after: "system services {\n    ssh { protocol-version v2; }\n}" },
       paloalto: { before: '"disable-ssh": "yes"', after: '"disable-ssh": "no"' },
-      generic: { before: "ssh disabled", after: "SSHv2 enabled" },
+      generic: { before: "ssh not configured", after: "SSHv2 enabled on management lines" },
     },
   },
 ];
 
 const SEVERITY_WEIGHT: Record<Severity, number> = { critical: 18, high: 11, medium: 6, low: 3 };
 
+export function computeSecurityScore(findings: Finding[]): number {
+  const penalty = findings.reduce((sum, f) => sum + SEVERITY_WEIGHT[f.severity], 0);
+  return Math.max(5, 100 - penalty);
+}
+
 export function runSecurityRules(model: NormalizedModel): Finding[] {
   return RULES.filter((r) => r.when(model.flags)).map((r) => {
     const control = model.controls.find((c) => c.key === r.evidenceKey);
+    const rem = r.remediation[model.vendor] ?? r.remediation.generic;
     return {
       id: r.id,
       severity: r.severity,
@@ -566,34 +586,30 @@ export function runSecurityRules(model: NormalizedModel): Finding[] {
       complianceImpact: r.complianceImpact,
       remediation: {
         vendor: model.vendor,
-        ...(r.remediation[model.vendor] ?? r.remediation.generic),
+        before: rem.before,
+        after: rem.after,
         explanation: r.risk,
       },
     };
   });
 }
 
-export function computeSecurityScore(findings: Finding[]): number {
-  const penalty = findings.reduce((sum, f) => sum + SEVERITY_WEIGHT[f.severity], 0);
-  return Math.max(5, 100 - penalty);
-}
-
 /* ------------------------------------------------------------------ */
-/* Stage 4 — compliance mapping                                        */
+/* Stage 4 — Multi-framework compliance assessment                     */
 /* ------------------------------------------------------------------ */
 
 const FRAMEWORK_TOTALS: Record<Framework, number> = {
-  CIS: 34,
-  "NIST SP 800-53": 41,
-  STIG: 28,
-  "ISO 27001": 25,
+  CIS: 24,
+  "NIST SP 800-53": 38,
+  STIG: 32,
+  "ISO 27001": 28,
 };
 
 const FRAMEWORK_NA: Record<Framework, number> = {
-  CIS: 3,
-  "NIST SP 800-53": 6,
-  STIG: 2,
-  "ISO 27001": 4,
+  CIS: 4,
+  "NIST SP 800-53": 10,
+  STIG: 8,
+  "ISO 27001": 6,
 };
 
 export function assessCompliance(findings: Finding[]): ComplianceResult[] {
@@ -611,7 +627,7 @@ export function assessCompliance(findings: Finding[]): ComplianceResult[] {
       notApplicable,
       percentage: Math.round((passed / applicable) * 100),
       failedControls: relevant.map(
-        (f) => `${f.frameworkRefs.find((r) => framework.startsWith(r.split(" ")[0])) ?? f.frameworkRefs[0]} — ${f.description}`,
+        (f) => `${f.frameworkRefs.find((r) => framework.startsWith(r.split(" ")[0] ?? "")) ?? f.frameworkRefs[0]} — ${f.description}`,
       ),
     };
   });
@@ -655,4 +671,12 @@ export function severityCounts(findings: Finding[]) {
     medium: findings.filter((f) => f.severity === "medium").length,
     low: findings.filter((f) => f.severity === "low").length,
   };
+}
+
+export function analyzeConfig(config: string, vendor: Vendor, framework: Framework): AnalysisResult {
+  return analyzeConfiguration({
+    raw: config,
+    fileName: "config.cfg",
+    vendorHint: vendor,
+  });
 }

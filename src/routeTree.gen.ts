@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnalysisRouteImport } from './routes/analysis'
+import { Route as AuditRouteImport } from './routes/audit'
+import { Route as LearningRouteImport } from './routes/learning'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as ResultsRouteImport } from './routes/results'
+import { Route as DeviceDeviceNameRouteImport } from './routes/device.$deviceName'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalysisRoute = AnalysisRouteImport.update({
+  id: '/analysis',
+  path: '/analysis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditRoute = AuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningRoute = LearningRouteImport.update({
+  id: '/learning',
+  path: '/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResultsRoute = ResultsRouteImport.update({
+  id: '/results',
+  path: '/results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeviceDeviceNameRoute = DeviceDeviceNameRouteImport.update({
+  id: '/device/$deviceName',
+  path: '/device/$deviceName',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analysis': typeof AnalysisRoute
+  '/audit': typeof AuditRoute
+  '/learning': typeof LearningRoute
+  '/reports': typeof ReportsRoute
+  '/results': typeof ResultsRoute
+  '/device/$deviceName': typeof DeviceDeviceNameRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analysis': typeof AnalysisRoute
+  '/audit': typeof AuditRoute
+  '/learning': typeof LearningRoute
+  '/reports': typeof ReportsRoute
+  '/results': typeof ResultsRoute
+  '/device/$deviceName': typeof DeviceDeviceNameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analysis': typeof AnalysisRoute
+  '/audit': typeof AuditRoute
+  '/learning': typeof LearningRoute
+  '/reports': typeof ReportsRoute
+  '/results': typeof ResultsRoute
+  '/device/$deviceName': typeof DeviceDeviceNameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/analysis'
+    | '/audit'
+    | '/learning'
+    | '/reports'
+    | '/results'
+    | '/device/$deviceName'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/analysis'
+    | '/audit'
+    | '/learning'
+    | '/reports'
+    | '/results'
+    | '/device/$deviceName'
+  id:
+    | '__root__'
+    | '/'
+    | '/analysis'
+    | '/audit'
+    | '/learning'
+    | '/reports'
+    | '/results'
+    | '/device/$deviceName'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalysisRoute: typeof AnalysisRoute
+  AuditRoute: typeof AuditRoute
+  LearningRoute: typeof LearningRoute
+  ReportsRoute: typeof ReportsRoute
+  ResultsRoute: typeof ResultsRoute
+  DeviceDeviceNameRoute: typeof DeviceDeviceNameRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analysis': {
+      id: '/analysis'
+      path: '/analysis'
+      fullPath: '/analysis'
+      preLoaderRoute: typeof AnalysisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit': {
+      id: '/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning': {
+      id: '/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof LearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/results': {
+      id: '/results'
+      path: '/results'
+      fullPath: '/results'
+      preLoaderRoute: typeof ResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/device/$deviceName': {
+      id: '/device/$deviceName'
+      path: '/device/$deviceName'
+      fullPath: '/device/$deviceName'
+      preLoaderRoute: typeof DeviceDeviceNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalysisRoute: AnalysisRoute,
+  AuditRoute: AuditRoute,
+  LearningRoute: LearningRoute,
+  ReportsRoute: ReportsRoute,
+  ResultsRoute: ResultsRoute,
+  DeviceDeviceNameRoute: DeviceDeviceNameRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
