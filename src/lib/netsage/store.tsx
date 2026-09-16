@@ -96,7 +96,19 @@ export function NetsageProvider({ children }: { children: ReactNode }) {
       log,
       ingest,
     }),
-    [user, login, logout, current, history, aiComplete, resolved, toggleResolved, audit, log, ingest],
+    [
+      user,
+      login,
+      logout,
+      current,
+      history,
+      aiComplete,
+      resolved,
+      toggleResolved,
+      audit,
+      log,
+      ingest,
+    ],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

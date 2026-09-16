@@ -38,7 +38,10 @@ export function generateReport(analysis: AnalysisResult, resolved: string[]) {
     head: [["Configuration Overview", ""]],
     body: [
       ["Device", analysis.deviceName],
-      ["Vendor", `${analysis.detection.vendorLabel} (${analysis.detection.confidence}% confidence)`],
+      [
+        "Vendor",
+        `${analysis.detection.vendorLabel} (${analysis.detection.confidence}% confidence)`,
+      ],
       ["Source file", analysis.fileName],
       ["Security score", `${analysis.securityScore} / 100`],
       ["Compliance score", `${analysis.complianceScore}%`],

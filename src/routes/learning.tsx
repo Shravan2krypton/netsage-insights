@@ -53,7 +53,8 @@ function Learning() {
     {
       id: "LM-001",
       unknownCommand: 'set security-policy from-trust "any" to-untrust "any" action deny',
-      aiSuggestion: "Inbound security policy rule denying all outbound traffic from trust to untrust zones",
+      aiSuggestion:
+        "Inbound security policy rule denying all outbound traffic from trust to untrust zones",
       confidence: 94,
       vendor: "Fortinet FortiOS",
       timestamp: "2 hours ago",
@@ -80,7 +81,8 @@ function Learning() {
     {
       id: "KB-047",
       command: "set log syslogd setting status enable",
-      interpretation: "Remote syslog server streaming configuration for real-time SIEM audit log forwarding",
+      interpretation:
+        "Remote syslog server streaming configuration for real-time SIEM audit log forwarding",
       vendor: "Fortinet FortiOS",
       addedBy: "secops.lead@enterprise.net",
       addedDate: "2024-01-15",
@@ -89,7 +91,8 @@ function Learning() {
     {
       id: "KB-046",
       command: "system services ssh protocol-version v2",
-      interpretation: "Strict SSH Version 2 cryptographic protocol enforcement, disabling deprecated v1",
+      interpretation:
+        "Strict SSH Version 2 cryptographic protocol enforcement, disabling deprecated v1",
       vendor: "Juniper Junos",
       addedBy: "network.admin@enterprise.net",
       addedDate: "2024-01-14",
@@ -98,7 +101,8 @@ function Learning() {
     {
       id: "KB-045",
       command: "service password-encryption",
-      interpretation: "Global reversible password encryption for stored local credential strings (Cisco Type 7)",
+      interpretation:
+        "Global reversible password encryption for stored local credential strings (Cisco Type 7)",
       vendor: "Cisco IOS",
       addedBy: "compliance.auditor@enterprise.net",
       addedDate: "2024-01-13",
@@ -107,7 +111,8 @@ function Learning() {
     {
       id: "KB-044",
       command: "ntp server 10.0.0.1 prefer iburst",
-      interpretation: "Authoritative NTP synchronization with burst query mode for millisecond-level drift correction",
+      interpretation:
+        "Authoritative NTP synchronization with burst query mode for millisecond-level drift correction",
       vendor: "Cisco IOS",
       addedBy: "admin@corp.local",
       addedDate: "2024-01-10",
@@ -189,28 +194,41 @@ function Learning() {
                   <Brain className="w-3.5 h-3.5 animate-pulse" />
                   Self-Evolving Semantics
                 </span>
-                <span className="text-xs text-[var(--muted-foreground)]">Model: NetSage-NLP v4.2</span>
+                <span className="text-xs text-[var(--muted-foreground)]">
+                  Model: NetSage-NLP v4.2
+                </span>
               </div>
               <h1 className="text-3xl font-extrabold tracking-tight text-gradient">
                 Adaptive Learning & KB Hub
               </h1>
               <p className="text-sm text-[var(--muted-foreground)] mt-1 max-w-2xl">
-                Review machine-learned syntax interpretations, authorize validated semantic models, and expand NetSage's autonomous multi-vendor recognition dictionary.
+                Review machine-learned syntax interpretations, authorize validated semantic models,
+                and expand NetSage's autonomous multi-vendor recognition dictionary.
               </p>
             </div>
 
             {/* Quick Metrics */}
             <div className="flex items-center gap-3">
               <div className="px-4 py-2.5 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)] shadow-sm">
-                <div className="text-xs text-[var(--muted-foreground)] font-medium">KB Definitions</div>
-                <div className="text-xl font-bold font-mono text-[var(--primary)]">{knowledgeBase.length + 42}</div>
+                <div className="text-xs text-[var(--muted-foreground)] font-medium">
+                  KB Definitions
+                </div>
+                <div className="text-xl font-bold font-mono text-[var(--primary)]">
+                  {knowledgeBase.length + 42}
+                </div>
               </div>
               <div className="px-4 py-2.5 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)] shadow-sm">
-                <div className="text-xs text-[var(--muted-foreground)] font-medium">Pending Review</div>
-                <div className="text-xl font-bold font-mono text-amber-400">{pendingMappings.length}</div>
+                <div className="text-xs text-[var(--muted-foreground)] font-medium">
+                  Pending Review
+                </div>
+                <div className="text-xl font-bold font-mono text-amber-400">
+                  {pendingMappings.length}
+                </div>
               </div>
               <div className="px-4 py-2.5 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)] shadow-sm">
-                <div className="text-xs text-[var(--muted-foreground)] font-medium">NLP Precision</div>
+                <div className="text-xs text-[var(--muted-foreground)] font-medium">
+                  NLP Precision
+                </div>
                 <div className="text-xl font-bold font-mono text-emerald-400">99.4%</div>
               </div>
             </div>
@@ -237,17 +255,24 @@ function Learning() {
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-[var(--muted-foreground)] mt-1.5 max-w-3xl leading-relaxed">
-                  When NetSage parses proprietary or vendor-specific edge case syntax, our zero-shot transformer generates a structured interpretation. Once confirmed by your security team, it is immediately compiled into the fleet-wide compliance engine.
+                  When NetSage parses proprietary or vendor-specific edge case syntax, our zero-shot
+                  transformer generates a structured interpretation. Once confirmed by your security
+                  team, it is immediately compiled into the fleet-wide compliance engine.
                 </p>
-                
+
                 <div className="mt-4 flex flex-wrap items-center gap-4 text-xs font-mono">
                   <div className="flex items-center gap-1.5 text-[var(--foreground)] bg-[var(--surface)]/80 px-3 py-1.5 rounded-lg border border-[var(--border)]">
                     <Database className="h-3.5 w-3.5 text-emerald-400" />
-                    <span><strong className="text-emerald-400">{knowledgeBase.length + 42}</strong> Total Rules Ingested</span>
+                    <span>
+                      <strong className="text-emerald-400">{knowledgeBase.length + 42}</strong>{" "}
+                      Total Rules Ingested
+                    </span>
                   </div>
                   <div className="flex items-center gap-1.5 text-[var(--foreground)] bg-[var(--surface)]/80 px-3 py-1.5 rounded-lg border border-[var(--border)]">
                     <TrendingUp className="h-3.5 w-3.5 text-cyan-400" />
-                    <span><strong className="text-cyan-400">+14</strong> Learned This Month</span>
+                    <span>
+                      <strong className="text-cyan-400">+14</strong> Learned This Month
+                    </span>
                   </div>
                   <div className="flex items-center gap-1.5 text-[var(--foreground)] bg-[var(--surface)]/80 px-3 py-1.5 rounded-lg border border-[var(--border)]">
                     <Cpu className="h-3.5 w-3.5 text-purple-400" />
@@ -266,7 +291,9 @@ function Learning() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-                <h2 className="text-lg font-bold text-[var(--foreground)]">Pending AI Suggestions</h2>
+                <h2 className="text-lg font-bold text-[var(--foreground)]">
+                  Pending AI Suggestions
+                </h2>
               </div>
               <span className="px-2.5 py-0.5 text-xs font-bold font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full">
                 {pendingMappings.length} awaiting validation
@@ -278,7 +305,9 @@ function Learning() {
                 <div className="w-12 h-12 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                   <CheckCircle className="w-6 h-6" />
                 </div>
-                <h3 className="font-semibold text-sm text-[var(--foreground)]">All Mappings Verified</h3>
+                <h3 className="font-semibold text-sm text-[var(--foreground)]">
+                  All Mappings Verified
+                </h3>
                 <p className="text-xs text-[var(--muted-foreground)]">
                   The AI has no pending semantic ambiguities requiring administrator confirmation.
                 </p>
@@ -341,7 +370,7 @@ function Learning() {
                     <div className="flex items-center gap-2.5 pt-1">
                       <button
                         onClick={() => handleAcceptMapping(mapping.id)}
-                        className="flex-1 py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm hover:shadow-emerald-500/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                        className="flex-1 py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-foreground text-xs font-semibold shadow-sm hover:shadow-emerald-500/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <Check className="w-4 h-4" />
                         Authorize & Add to KB
@@ -513,7 +542,9 @@ function Learning() {
                 <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
                   <Database className="w-5 h-5" />
                 </div>
-                <div className="font-bold text-xs text-[var(--foreground)]">4. Knowledge Ingest</div>
+                <div className="font-bold text-xs text-[var(--foreground)]">
+                  4. Knowledge Ingest
+                </div>
                 <p className="text-[11px] text-[var(--muted-foreground)]">
                   Validated rule is cataloged into immutable vector store with cryptohash.
                 </p>
@@ -524,7 +555,9 @@ function Learning() {
                 <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                   <CheckCircle className="w-5 h-5" />
                 </div>
-                <div className="font-bold text-xs text-[var(--foreground)]">5. Auto-Recognition</div>
+                <div className="font-bold text-xs text-[var(--foreground)]">
+                  5. Auto-Recognition
+                </div>
                 <p className="text-[11px] text-[var(--muted-foreground)]">
                   Subsequent multi-vendor scans execute with zero latency recognition.
                 </p>

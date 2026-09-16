@@ -49,19 +49,19 @@ function Reports() {
   // Generate deterministic baseline analyses
   const ciscoAnalysis = useMemo(
     () => analyzeConfig(DEMO_CONFIGS.cisco.content, "cisco", "CIS"),
-    []
+    [],
   );
   const fortinetAnalysis = useMemo(
     () => analyzeConfig(DEMO_CONFIGS.fortinet.content, "fortinet", "NIST SP 800-53"),
-    []
+    [],
   );
   const juniperAnalysis = useMemo(
     () => analyzeConfig(DEMO_CONFIGS.juniper.content, "juniper", "STIG"),
-    []
+    [],
   );
   const paloaltoAnalysis = useMemo(
     () => analyzeConfig(DEMO_CONFIGS.paloalto.content, "paloalto", "ISO 27001"),
-    []
+    [],
   );
 
   const analysesMap: Record<string, AnalysisResult> = {
@@ -73,64 +73,69 @@ function Reports() {
 
   const allAnalyses = [ciscoAnalysis, fortinetAnalysis, juniperAnalysis, paloaltoAnalysis];
 
-  const auditHistory: AuditHistoryItem[] = [
-    {
-      id: "AUD-2024-001",
-      deviceName: "Cisco-Router-01",
-      vendorKey: "cisco",
-      framework: "CIS",
-      complianceScore: ciscoAnalysis.complianceScore,
-      timestamp: "2024-01-15 14:30:00 UTC",
-      status: ciscoAnalysis.complianceScore >= 80 ? "Passed" : "Failed",
-      findingsCount: ciscoAnalysis.findings.length,
-    },
-    {
-      id: "AUD-2024-002",
-      deviceName: "FortiGate-Edge-02",
-      vendorKey: "fortinet",
-      framework: "NIST SP 800-53",
-      complianceScore: fortinetAnalysis.complianceScore,
-      timestamp: "2024-01-15 10:15:00 UTC",
-      status: fortinetAnalysis.complianceScore >= 80 ? "Passed" : "Review",
-      findingsCount: fortinetAnalysis.findings.length,
-    },
-    {
-      id: "AUD-2024-003",
-      deviceName: "Juniper-MX-03",
-      vendorKey: "juniper",
-      framework: "STIG",
-      complianceScore: juniperAnalysis.complianceScore,
-      timestamp: "2024-01-14 16:45:00 UTC",
-      status: juniperAnalysis.complianceScore >= 80 ? "Passed" : "Review",
-      findingsCount: juniperAnalysis.findings.length,
-    },
-    {
-      id: "AUD-2024-004",
-      deviceName: "PaloAlto-PA850-04",
-      vendorKey: "paloalto",
-      framework: "ISO 27001",
-      complianceScore: paloaltoAnalysis.complianceScore,
-      timestamp: "2024-01-14 09:20:00 UTC",
-      status: paloaltoAnalysis.complianceScore >= 80 ? "Passed" : "Failed",
-      findingsCount: paloaltoAnalysis.findings.length,
-    },
-    {
-      id: "AUD-2024-005",
-      deviceName: "Cisco-Core-Agg-05",
-      vendorKey: "cisco",
-      framework: "CIS",
-      complianceScore: 88,
-      timestamp: "2024-01-13 11:00:00 UTC",
-      status: "Passed",
-      findingsCount: 2,
-    },
-  ];
+  const auditHistory: AuditHistoryItem[] = useMemo(
+    () => [
+      {
+        id: "AUD-2024-001",
+        deviceName: "Cisco-Router-01",
+        vendorKey: "cisco",
+        framework: "CIS",
+        complianceScore: ciscoAnalysis.complianceScore,
+        timestamp: "2024-01-15 14:30:00 UTC",
+        status: ciscoAnalysis.complianceScore >= 80 ? "Passed" : "Failed",
+        findingsCount: ciscoAnalysis.findings.length,
+      },
+      {
+        id: "AUD-2024-002",
+        deviceName: "FortiGate-Edge-02",
+        vendorKey: "fortinet",
+        framework: "NIST SP 800-53",
+        complianceScore: fortinetAnalysis.complianceScore,
+        timestamp: "2024-01-15 10:15:00 UTC",
+        status: fortinetAnalysis.complianceScore >= 80 ? "Passed" : "Review",
+        findingsCount: fortinetAnalysis.findings.length,
+      },
+      {
+        id: "AUD-2024-003",
+        deviceName: "Juniper-MX-03",
+        vendorKey: "juniper",
+        framework: "STIG",
+        complianceScore: juniperAnalysis.complianceScore,
+        timestamp: "2024-01-14 16:45:00 UTC",
+        status: juniperAnalysis.complianceScore >= 80 ? "Passed" : "Review",
+        findingsCount: juniperAnalysis.findings.length,
+      },
+      {
+        id: "AUD-2024-004",
+        deviceName: "PaloAlto-PA850-04",
+        vendorKey: "paloalto",
+        framework: "ISO 27001",
+        complianceScore: paloaltoAnalysis.complianceScore,
+        timestamp: "2024-01-14 09:20:00 UTC",
+        status: paloaltoAnalysis.complianceScore >= 80 ? "Passed" : "Failed",
+        findingsCount: paloaltoAnalysis.findings.length,
+      },
+      {
+        id: "AUD-2024-005",
+        deviceName: "Cisco-Core-Agg-05",
+        vendorKey: "cisco",
+        framework: "CIS",
+        complianceScore: 88,
+        timestamp: "2024-01-13 11:00:00 UTC",
+        status: "Passed",
+        findingsCount: 2,
+      },
+    ],
+    [ciscoAnalysis, fortinetAnalysis, juniperAnalysis, paloaltoAnalysis],
+  );
 
   const frameworks = ["CIS", "NIST SP 800-53", "STIG", "ISO 27001"];
 
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
-  const [selectedAuditForPreview, setSelectedAuditForPreview] = useState<AuditHistoryItem | null>(null);
+  const [selectedAuditForPreview, setSelectedAuditForPreview] = useState<AuditHistoryItem | null>(
+    null,
+  );
 
   const filteredAudits = useMemo(() => {
     return auditHistory.filter((audit) => {
@@ -193,13 +198,16 @@ function Reports() {
                   <FileText className="w-3.5 h-3.5" />
                   Executive Audit Dossier
                 </span>
-                <span className="text-xs text-[var(--muted-foreground)]">Format: PDF AutoTable v4</span>
+                <span className="text-xs text-[var(--muted-foreground)]">
+                  Format: PDF AutoTable v4
+                </span>
               </div>
               <h1 className="text-3xl font-extrabold tracking-tight text-gradient">
                 Compliance Reports Hub
               </h1>
               <p className="text-sm text-[var(--muted-foreground)] mt-1 max-w-2xl">
-                Generate, export, and inspect formal multi-vendor regulatory compliance dossiers, executive summaries, and remediation work orders.
+                Generate, export, and inspect formal multi-vendor regulatory compliance dossiers,
+                executive summaries, and remediation work orders.
               </p>
             </div>
 
@@ -225,6 +233,51 @@ function Reports() {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
+        {/* Key Differentiator Showcase Banner */}
+        <div className="relative overflow-hidden rounded-2xl border border-[var(--primary)]/30 bg-gradient-to-r from-[var(--primary)]/20 via-[var(--surface-elevated)] to-[var(--accent)]/20 p-6 sm:p-7 shadow-lg">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--primary)]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[var(--primary)]/10 border border-[var(--primary)]/30 flex items-center justify-center shrink-0 shadow-inner">
+                <FileText className="h-6 w-6 text-[var(--primary)]" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-lg font-bold text-[var(--foreground)]">
+                    Executive Reporting & Compliance Documentation
+                  </h2>
+                  <span className="px-2 py-0.5 text-[10px] font-bold rounded-full uppercase bg-[var(--primary)]/20 text-[var(--primary)] border border-[var(--primary)]/30">
+                    Live Active
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-[var(--muted-foreground)] mt-1.5 max-w-3xl leading-relaxed">
+                  Generate professional compliance reports with executive summaries, framework
+                  breakdowns, and automated remediation work orders for audit trails and regulatory
+                  submissions.
+                </p>
+
+                <div className="mt-4 flex flex-wrap items-center gap-4 text-xs font-mono">
+                  <div className="flex items-center gap-1.5 text-[var(--foreground)] bg-[var(--surface)]/80 px-3 py-1.5 rounded-lg border border-[var(--border)]">
+                    <FileText className="h-3.5 w-3.5 text-[var(--primary)]" />
+                    <span>
+                      <strong className="text-[var(--primary)]">PDF</strong> Export
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[var(--foreground)] bg-[var(--surface)]/80 px-3 py-1.5 rounded-lg border border-[var(--border)]">
+                    <Layers className="h-3.5 w-3.5 text-[var(--accent)]" />
+                    <span>
+                      <strong className="text-[var(--accent)]">4</strong> Frameworks
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-[var(--foreground)] bg-[var(--surface)]/80 px-3 py-1.5 rounded-lg border border-[var(--border)]">
+                    <Calendar className="h-3.5 w-3.5 text-[var(--pass)]" />
+                    <span>Audit History</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* Report Category Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1: Device-Wise */}
@@ -234,15 +287,20 @@ function Reports() {
                 <FileText className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[var(--foreground)]">Device Assessment Dossier</h3>
+                <h3 className="text-base font-bold text-[var(--foreground)]">
+                  Device Assessment Dossier
+                </h3>
                 <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
-                  Comprehensive compliance audit with executive risk score, rule-by-rule control evaluation, and before/after remediation patches.
+                  Comprehensive compliance audit with executive risk score, rule-by-rule control
+                  evaluation, and before/after remediation patches.
                 </p>
               </div>
             </div>
 
             <div className="space-y-2 pt-2 border-t border-[var(--border)]">
-              <div className="text-[11px] font-mono text-[var(--muted-foreground)]">Select Device to Generate:</div>
+              <div className="text-[11px] font-mono text-[var(--muted-foreground)]">
+                Select Device to Generate:
+              </div>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => handleExportDevicePDF("cisco")}
@@ -269,15 +327,20 @@ function Reports() {
                 <BarChart3 className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[var(--foreground)]">Framework Aggregate Report</h3>
+                <h3 className="text-base font-bold text-[var(--foreground)]">
+                  Framework Aggregate Report
+                </h3>
                 <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
-                  Cross-vendor posture aggregated by regulatory standards (CIS Benchmark, NIST SP 800-53, DISA STIG, ISO 27001).
+                  Cross-vendor posture aggregated by regulatory standards (CIS Benchmark, NIST SP
+                  800-53, DISA STIG, ISO 27001).
                 </p>
               </div>
             </div>
 
             <div className="space-y-2 pt-2 border-t border-[var(--border)]">
-              <div className="text-[11px] font-mono text-[var(--muted-foreground)]">Quick Export Standard:</div>
+              <div className="text-[11px] font-mono text-[var(--muted-foreground)]">
+                Quick Export Standard:
+              </div>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => handleExportDevicePDF("fortinet")}
@@ -304,9 +367,12 @@ function Reports() {
                 <Calendar className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-[var(--foreground)]">Historical Audit Ledger</h3>
+                <h3 className="text-base font-bold text-[var(--foreground)]">
+                  Historical Audit Ledger
+                </h3>
                 <p className="text-xs text-[var(--muted-foreground)] mt-1 leading-relaxed">
-                  Audit tracking log with SHA-256 evidence records, historical drift analysis, and remediation resolution logs.
+                  Audit tracking log with SHA-256 evidence records, historical drift analysis, and
+                  remediation resolution logs.
                 </p>
               </div>
             </div>
@@ -314,7 +380,7 @@ function Reports() {
             <div className="pt-2 border-t border-[var(--border)]">
               <button
                 onClick={handleExportAllPDFs}
-                className="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-foreground text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 Download Complete History
@@ -332,14 +398,16 @@ function Reports() {
                 Fleet Framework Compliance Breakdown
               </h2>
             </div>
-            <span className="text-xs font-mono text-[var(--muted-foreground)]">4 Standards Evaluated</span>
+            <span className="text-xs font-mono text-[var(--muted-foreground)]">
+              4 Standards Evaluated
+            </span>
           </div>
 
           <div className="p-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {frameworks.map((framework) => {
                 const frameworkAnalyses = allAnalyses.filter((a) =>
-                  a.compliance.some((c) => c.framework === framework)
+                  a.compliance.some((c) => c.framework === framework),
                 );
                 const avgScore =
                   frameworkAnalyses.length > 0
@@ -347,7 +415,7 @@ function Reports() {
                         frameworkAnalyses.reduce((sum, a) => {
                           const comp = a.compliance.find((c) => c.framework === framework);
                           return sum + (comp?.percentage || 0);
-                        }, 0) / frameworkAnalyses.length
+                        }, 0) / frameworkAnalyses.length,
                       )
                     : 0;
 
@@ -360,10 +428,16 @@ function Reports() {
                     className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] space-y-3 relative overflow-hidden"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[var(--foreground)]">{framework}</span>
+                      <span className="text-xs font-bold text-[var(--foreground)]">
+                        {framework}
+                      </span>
                       <span
                         className={`text-sm font-mono font-extrabold ${
-                          isGood ? "text-emerald-400" : isMedium ? "text-amber-400" : "text-rose-400"
+                          isGood
+                            ? "text-emerald-400"
+                            : isMedium
+                              ? "text-amber-400"
+                              : "text-rose-400"
                         }`}
                       >
                         {avgScore}%
@@ -377,8 +451,8 @@ function Reports() {
                           isGood
                             ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"
                             : isMedium
-                            ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]"
-                            : "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"
+                              ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]"
+                              : "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]"
                         }`}
                         style={{ width: `${avgScore}%` }}
                       />
@@ -458,7 +532,10 @@ function Reports() {
               <tbody className="divide-y divide-[var(--border)] font-mono">
                 {filteredAudits.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-6 py-8 text-center text-xs text-[var(--muted-foreground)]">
+                    <td
+                      colSpan={8}
+                      className="px-6 py-8 text-center text-xs text-[var(--muted-foreground)]"
+                    >
                       No audits match the selected query.
                     </td>
                   </tr>
@@ -483,15 +560,17 @@ function Reports() {
                             {audit.deviceName}
                           </Link>
                         </td>
-                        <td className="px-6 py-4 text-[var(--muted-foreground)]">{audit.framework}</td>
+                        <td className="px-6 py-4 text-[var(--muted-foreground)]">
+                          {audit.framework}
+                        </td>
                         <td className="px-6 py-4">
                           <span
                             className={`font-bold ${
                               isGood
                                 ? "text-emerald-400"
                                 : isMedium
-                                ? "text-amber-400"
-                                : "text-rose-400"
+                                  ? "text-amber-400"
+                                  : "text-rose-400"
                             }`}
                           >
                             {audit.complianceScore}%
@@ -503,8 +582,8 @@ function Reports() {
                               audit.status === "Passed"
                                 ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                                 : audit.status === "Failed"
-                                ? "bg-rose-500/10 text-rose-400 border border-rose-500/20"
-                                : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                                  ? "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                                  : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
                             }`}
                           >
                             {audit.status}
@@ -568,7 +647,11 @@ function Reports() {
                       <VendorBadge vendor={analysis.detection.vendorLabel} />
                       <span
                         className={`text-sm font-mono font-bold ${
-                          isGood ? "text-emerald-400" : isMedium ? "text-amber-400" : "text-rose-400"
+                          isGood
+                            ? "text-emerald-400"
+                            : isMedium
+                              ? "text-amber-400"
+                              : "text-rose-400"
                         }`}
                       >
                         {analysis.complianceScore}%
@@ -592,7 +675,7 @@ function Reports() {
                     </Link>
                     <button
                       onClick={() => generateReport(analysis, [])}
-                      className="py-1 px-2.5 rounded bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+                      className="py-1 px-2.5 rounded bg-blue-600 hover:bg-blue-500 text-foreground text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       <Download className="w-3 h-3" />
                       PDF
@@ -634,25 +717,33 @@ function Reports() {
             <div className="p-6 overflow-y-auto space-y-4 font-mono text-xs text-[var(--foreground)]">
               <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)]">
                 <div>
-                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">Target Device</span>
+                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">
+                    Target Device
+                  </span>
                   <div className="font-bold text-[var(--foreground)] mt-0.5">
                     {selectedAuditForPreview.deviceName}
                   </div>
                 </div>
                 <div>
-                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">Compliance Score</span>
+                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">
+                    Compliance Score
+                  </span>
                   <div className="font-bold text-emerald-400 mt-0.5">
                     {selectedAuditForPreview.complianceScore}% / 100
                   </div>
                 </div>
                 <div>
-                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">Framework Standard</span>
+                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">
+                    Framework Standard
+                  </span>
                   <div className="font-bold text-[var(--foreground)] mt-0.5">
                     {selectedAuditForPreview.framework}
                   </div>
                 </div>
                 <div>
-                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">Execution Time</span>
+                  <span className="text-[10px] text-[var(--muted-foreground)] uppercase">
+                    Execution Time
+                  </span>
                   <div className="font-bold text-[var(--foreground)] mt-0.5">
                     {selectedAuditForPreview.timestamp}
                   </div>
@@ -660,7 +751,9 @@ function Reports() {
               </div>
 
               <div>
-                <div className="font-bold text-xs text-[var(--foreground)] mb-2">Findings Summary</div>
+                <div className="font-bold text-xs text-[var(--foreground)] mb-2">
+                  Findings Summary
+                </div>
                 <div className="p-3 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border)] space-y-2">
                   <div className="flex items-center justify-between text-[11px]">
                     <span className="text-[var(--muted-foreground)]">Total Findings Flagged</span>
@@ -669,7 +762,9 @@ function Reports() {
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-[var(--muted-foreground)]">Cryptographic Evidence Digest</span>
+                    <span className="text-[var(--muted-foreground)]">
+                      Cryptographic Evidence Digest
+                    </span>
                     <span className="font-mono text-cyan-400 text-[10px]">
                       sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
                     </span>

@@ -139,7 +139,7 @@ export function detectVendor(config: string): VendorDetection {
 
 function extractHostname(config: string): string {
   const patterns = [
-    /^\s*hostname\s+([\w.-]+)/mi,
+    /^\s*hostname\s+([\w.-]+)/im,
     /set hostname\s+"?([\w.-]+)"?/i,
     /host-name\s+([\w.-]+);/i,
     /"hostname"\s*:\s*"([\w.-]+)"/i,
@@ -180,13 +180,18 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
 
   const loggingConfigured =
     (/logging host/i.test(config) && !/no logging host/i.test(config)) ||
-    (/syslog/i.test(config) && !/config log syslogd setting\s*\n\s*set status disable/i.test(config) &&
+    (/syslog/i.test(config) &&
+      !/config log syslogd setting\s*\n\s*set status disable/i.test(config) &&
       !/"syslog"\s*:\s*\{\s*\}/.test(config));
 
   const ntpConfigured =
     (/ntp server/i.test(config) && !/no ntp server/i.test(config)) ||
-    (/ntpsync enable/i.test(config)) ||
-    (/"ntp-servers"\s*:\s*\{\s*\}/.test(config) ? false : /ntp-servers/i.test(config) === false ? false : true);
+    /ntpsync enable/i.test(config) ||
+    (/"ntp-servers"\s*:\s*\{\s*\}/.test(config)
+      ? false
+      : /ntp-servers/i.test(config) === false
+        ? false
+        : true);
 
   const permissiveRule =
     /permit ip any any/i.test(config) ||
@@ -208,9 +213,7 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
     !/password-policy|password-complexity|min-length|security passwords/i.test(config);
 
   const unusedServices =
-    /snmp-server community public/i.test(config) ||
-    /community public/i.test(config) ||
-    httpEnabled;
+    /snmp-server community public/i.test(config) || /community public/i.test(config) || httpEnabled;
 
   const unrestrictedAdmin =
     /trusthost1 0\.0\.0\.0 0\.0\.0\.0/i.test(config) ||
@@ -237,17 +240,21 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "Hostname",
       value: extractHostname(config),
       status: "valid",
-      evidence: firstLine(config, /^.*host-?name.*$/mi),
+      evidence: firstLine(config, /^.*host-?name.*$/im),
       aiNote: "Device identity extracted from vendor syntax.",
     },
     {
       key: "management",
       label: "Management Access",
-      value: [telnetEnabled && "telnet", sshEnabled && "ssh", httpEnabled && "http"]
-        .filter(Boolean)
-        .join(", ") || "none detected",
+      value:
+        [telnetEnabled && "telnet", sshEnabled && "ssh", httpEnabled && "http"]
+          .filter(Boolean)
+          .join(", ") || "none detected",
       status: telnetEnabled || httpEnabled ? "failed" : "valid",
-      evidence: firstLine(config, /^.*(transport input|allowaccess|web-management|disable-telnet).*$/mi),
+      evidence: firstLine(
+        config,
+        /^.*(transport input|allowaccess|web-management|disable-telnet).*$/im,
+      ),
       aiNote: "Mapped vendor management-plane commands to the common access control.",
     },
     {
@@ -255,7 +262,10 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "Authentication",
       value: weakAuth ? "local, unencrypted / no AAA" : "centralised AAA",
       status: weakAuth ? "failed" : "valid",
-      evidence: firstLine(config, /^.*(aaa new-model|plain-text-password|enable password|password 0).*$/mi),
+      evidence: firstLine(
+        config,
+        /^.*(aaa new-model|plain-text-password|enable password|password 0).*$/im,
+      ),
       aiNote: "Authentication intent derived from credential and AAA directives.",
     },
     {
@@ -263,7 +273,7 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "Password Policy",
       value: weakPasswordPolicy ? "not enforced" : "enforced",
       status: weakPasswordPolicy ? "failed" : "valid",
-      evidence: firstLine(config, /^.*(password-policy|password-complexity).*$/mi),
+      evidence: firstLine(config, /^.*(password-policy|password-complexity).*$/im),
       aiNote: "Complexity/aging directives normalised to a single policy control.",
     },
     {
@@ -278,7 +288,7 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "Telnet",
       value: telnetEnabled ? "enabled" : "disabled",
       status: telnetEnabled ? "failed" : "valid",
-      evidence: firstLine(config, /^.*telnet.*$/mi),
+      evidence: firstLine(config, /^.*telnet.*$/im),
       aiNote: "Cleartext management transport detection.",
     },
     {
@@ -286,7 +296,7 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "Logging",
       value: loggingConfigured ? "syslog target configured" : "no remote logging",
       status: loggingConfigured ? "valid" : "failed",
-      evidence: firstLine(config, /^.*(logging|syslog).*$/mi),
+      evidence: firstLine(config, /^.*(logging|syslog).*$/im),
       aiNote: "Audit logging destination normalised across vendors.",
     },
     {
@@ -294,7 +304,7 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "NTP",
       value: ntpConfigured ? "time source configured" : "no time synchronisation",
       status: ntpConfigured ? "valid" : "failed",
-      evidence: firstLine(config, /^.*ntp.*$/mi),
+      evidence: firstLine(config, /^.*ntp.*$/im),
       aiNote: "Time synchronisation is required for reliable audit trails.",
     },
     {
@@ -302,7 +312,10 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "ACL / Firewall Rules",
       value: permissiveRule ? "overly permissive any/any rule present" : "scoped rules",
       status: permissiveRule ? "failed" : "valid",
-      evidence: firstLine(config, /^.*(permit ip any any|set action accept|then accept|"action").*$/mi),
+      evidence: firstLine(
+        config,
+        /^.*(permit ip any any|set action accept|then accept|"action").*$/im,
+      ),
       aiNote: "Vendor rule sets normalised into allow/deny intent.",
     },
     {
@@ -310,7 +323,7 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "Unused Services",
       value: unusedServices ? "http / snmp default community enabled" : "none enabled",
       status: unusedServices ? "review" : "valid",
-      evidence: firstLine(config, /^.*(snmp|community public|http server).*$/mi),
+      evidence: firstLine(config, /^.*(snmp|community public|http server).*$/im),
       aiNote: "Non-essential services increase the attack surface.",
     },
     {
@@ -318,7 +331,7 @@ export function normalizeConfig(config: string, vendor: Vendor): NormalizedModel
       label: "Administrative Access",
       value: unrestrictedAdmin ? "unrestricted source addresses" : "restricted to trusted hosts",
       status: unrestrictedAdmin ? "failed" : "valid",
-      evidence: firstLine(config, /^.*(trusthost|permitted-ip|access-class|root-login).*$/mi),
+      evidence: firstLine(config, /^.*(trusthost|permitted-ip|access-class|root-login).*$/im),
       aiNote: "Administrative source restriction normalised into one control.",
     },
   ];
@@ -369,13 +382,21 @@ const RULES: Rule[] = [
     frameworks: ["CIS", "NIST SP 800-53", "STIG"],
     frameworkRefs: ["CIS 2.1.2", "NIST AC-17(2)", "STIG V-3012"],
     risk: "Telnet transmits credentials and session data in cleartext, allowing trivial interception on any shared network path.",
-    securityImpact: "Full administrative takeover of the device following a single passive capture.",
-    complianceImpact: "Fails encrypted-remote-access requirements in CIS, NIST AC-17(2) and DISA STIG.",
+    securityImpact:
+      "Full administrative takeover of the device following a single passive capture.",
+    complianceImpact:
+      "Fails encrypted-remote-access requirements in CIS, NIST AC-17(2) and DISA STIG.",
     evidenceKey: "telnet",
     remediation: {
-      cisco: { before: "line vty 0 4\n transport input telnet", after: "line vty 0 4\n transport input ssh" },
+      cisco: {
+        before: "line vty 0 4\n transport input telnet",
+        after: "line vty 0 4\n transport input ssh",
+      },
       fortinet: { before: "set admin-telnet enable", after: "set admin-telnet disable" },
-      juniper: { before: "system services {\n    telnet;\n}", after: "system services {\n    ssh {\n        protocol-version v2;\n    }\n}" },
+      juniper: {
+        before: "system services {\n    telnet;\n}",
+        after: "system services {\n    ssh {\n        protocol-version v2;\n    }\n}",
+      },
       paloalto: { before: '"disable-telnet": "no"', after: '"disable-telnet": "yes"' },
       generic: { before: "telnet enabled", after: "telnet disabled; use SSHv2" },
     },
@@ -393,16 +414,32 @@ const RULES: Rule[] = [
     complianceImpact: "Fails identity and credential management controls (NIST IA-5, ISO A.9.4.3).",
     evidenceKey: "authentication",
     remediation: {
-      cisco: { before: "no aaa new-model\nenable password cisco123", after: "aaa new-model\naaa authentication login default group tacacs+ local\nservice password-encryption\nenable secret <STRONG-SECRET>" },
-      fortinet: { before: 'set password ENC 1234abcd', after: 'config user radius\n    edit "AAA"\n        set server "10.0.0.10"\n    next\nend' },
-      juniper: { before: 'plain-text-password "juniper";', after: "encrypted-password \"$6$<hash>\";\nsystem authentication-order [ tacplus password ];" },
-      paloalto: { before: '"authentication-profile": ""', after: '"authentication-profile": "CORP-RADIUS"' },
-      generic: { before: "local plaintext credentials", after: "centralised AAA with encrypted credentials" },
+      cisco: {
+        before: "no aaa new-model\nenable password cisco123",
+        after:
+          "aaa new-model\naaa authentication login default group tacacs+ local\nservice password-encryption\nenable secret <STRONG-SECRET>",
+      },
+      fortinet: {
+        before: "set password ENC 1234abcd",
+        after: 'config user radius\n    edit "AAA"\n        set server "10.0.0.10"\n    next\nend',
+      },
+      juniper: {
+        before: 'plain-text-password "juniper";',
+        after: 'encrypted-password "$6$<hash>";\nsystem authentication-order [ tacplus password ];',
+      },
+      paloalto: {
+        before: '"authentication-profile": ""',
+        after: '"authentication-profile": "CORP-RADIUS"',
+      },
+      generic: {
+        before: "local plaintext credentials",
+        after: "centralised AAA with encrypted credentials",
+      },
     },
   },
   {
     id: "CFG-003",
-    when: (f) => !Boolean(f.loggingConfigured),
+    when: (f) => !f.loggingConfigured,
     severity: "high",
     control: "Logging",
     description: "No remote syslog destination configured",
@@ -413,16 +450,30 @@ const RULES: Rule[] = [
     complianceImpact: "Fails audit record generation and retention requirements.",
     evidenceKey: "logging",
     remediation: {
-      cisco: { before: "no logging host", after: "logging host 10.10.20.5\nlogging trap informational" },
-      fortinet: { before: "config log syslogd setting\n    set status disable\nend", after: 'config log syslogd setting\n    set status enable\n    set server "10.10.20.5"\nend' },
-      juniper: { before: "syslog {\n    file interactive-commands any;\n}", after: "syslog {\n    host 10.10.20.5 {\n        any notice;\n    }\n}" },
-      paloalto: { before: '"log-settings": { "syslog": {} }', after: '"log-settings": { "syslog": { "entry": { "@name": "SOC", "server": "10.10.20.5" } } }' },
+      cisco: {
+        before: "no logging host",
+        after: "logging host 10.10.20.5\nlogging trap informational",
+      },
+      fortinet: {
+        before: "config log syslogd setting\n    set status disable\nend",
+        after:
+          'config log syslogd setting\n    set status enable\n    set server "10.10.20.5"\nend',
+      },
+      juniper: {
+        before: "syslog {\n    file interactive-commands any;\n}",
+        after: "syslog {\n    host 10.10.20.5 {\n        any notice;\n    }\n}",
+      },
+      paloalto: {
+        before: '"log-settings": { "syslog": {} }',
+        after:
+          '"log-settings": { "syslog": { "entry": { "@name": "SOC", "server": "10.10.20.5" } } }',
+      },
       generic: { before: "logging disabled", after: "remote syslog target configured" },
     },
   },
   {
     id: "CFG-004",
-    when: (f) => !Boolean(f.ntpConfigured),
+    when: (f) => !f.ntpConfigured,
     severity: "medium",
     control: "Time Synchronisation",
     description: "No NTP time source configured",
@@ -433,10 +484,22 @@ const RULES: Rule[] = [
     complianceImpact: "Fails time-stamp integrity requirements (NIST AU-8).",
     evidenceKey: "ntp",
     remediation: {
-      cisco: { before: "no ntp server", after: "ntp server 10.10.20.10\nntp server 10.10.20.11 prefer" },
-      fortinet: { before: "set ntpsync disable", after: "set ntpsync enable\nset server-mode enable" },
-      juniper: { before: "# no ntp stanza", after: "system {\n    ntp {\n        server 10.10.20.10;\n    }\n}" },
-      paloalto: { before: '"ntp-servers": {}', after: '"ntp-servers": { "primary-ntp-server": { "ntp-server-address": "10.10.20.10" } }' },
+      cisco: {
+        before: "no ntp server",
+        after: "ntp server 10.10.20.10\nntp server 10.10.20.11 prefer",
+      },
+      fortinet: {
+        before: "set ntpsync disable",
+        after: "set ntpsync enable\nset server-mode enable",
+      },
+      juniper: {
+        before: "# no ntp stanza",
+        after: "system {\n    ntp {\n        server 10.10.20.10;\n    }\n}",
+      },
+      paloalto: {
+        before: '"ntp-servers": {}',
+        after: '"ntp-servers": { "primary-ntp-server": { "ntp-server-address": "10.10.20.10" } }',
+      },
       generic: { before: "no time source", after: "two authenticated NTP servers" },
     },
   },
@@ -454,8 +517,14 @@ const RULES: Rule[] = [
     evidenceKey: "management",
     remediation: {
       cisco: { before: "ip http server", after: "no ip http server\nip http secure-server" },
-      fortinet: { before: "set allowaccess ping https http ssh telnet", after: "set allowaccess ping https ssh" },
-      juniper: { before: "web-management {\n    http;\n}", after: "web-management {\n    https {\n        system-generated-certificate;\n    }\n}" },
+      fortinet: {
+        before: "set allowaccess ping https http ssh telnet",
+        after: "set allowaccess ping https ssh",
+      },
+      juniper: {
+        before: "web-management {\n    http;\n}",
+        after: "web-management {\n    https {\n        system-generated-certificate;\n    }\n}",
+      },
       paloalto: { before: '"disable-http": "no"', after: '"disable-http": "yes"' },
       generic: { before: "http management enabled", after: "https only" },
     },
@@ -473,10 +542,25 @@ const RULES: Rule[] = [
     complianceImpact: "Fails boundary protection controls (NIST SC-7).",
     evidenceKey: "acl",
     remediation: {
-      cisco: { before: "ip access-list extended OUTSIDE-IN\n permit ip any any", after: "ip access-list extended OUTSIDE-IN\n permit tcp any host 10.10.10.20 eq 443\n deny ip any any log" },
-      fortinet: { before: 'set srcaddr "all"\nset dstaddr "all"\nset service "ALL"', after: 'set srcaddr "TRUSTED-NET"\nset dstaddr "DMZ-WEB"\nset service "HTTPS"' },
-      juniper: { before: "term allow-all {\n    then accept;\n}", after: "term allow-mgmt {\n    from { source-address 10.10.20.0/24; }\n    then accept;\n}\nterm default-deny {\n    then { discard; log; }\n}" },
-      paloalto: { before: '"action": "allow", "source": ["any"], "destination": ["any"]', after: '"action": "allow", "source": ["TRUSTED-NET"], "destination": ["DMZ-WEB"], "application": ["ssl"]' },
+      cisco: {
+        before: "ip access-list extended OUTSIDE-IN\n permit ip any any",
+        after:
+          "ip access-list extended OUTSIDE-IN\n permit tcp any host 10.10.10.20 eq 443\n deny ip any any log",
+      },
+      fortinet: {
+        before: 'set srcaddr "all"\nset dstaddr "all"\nset service "ALL"',
+        after: 'set srcaddr "TRUSTED-NET"\nset dstaddr "DMZ-WEB"\nset service "HTTPS"',
+      },
+      juniper: {
+        before: "term allow-all {\n    then accept;\n}",
+        after:
+          "term allow-mgmt {\n    from { source-address 10.10.20.0/24; }\n    then accept;\n}\nterm default-deny {\n    then { discard; log; }\n}",
+      },
+      paloalto: {
+        before: '"action": "allow", "source": ["any"], "destination": ["any"]',
+        after:
+          '"action": "allow", "source": ["TRUSTED-NET"], "destination": ["DMZ-WEB"], "application": ["ssl"]',
+      },
       generic: { before: "allow any any", after: "least-privilege scoped rules + default deny" },
     },
   },
@@ -493,11 +577,27 @@ const RULES: Rule[] = [
     complianceImpact: "Fails least-functionality requirements (NIST CM-7).",
     evidenceKey: "unusedServices",
     remediation: {
-      cisco: { before: "snmp-server community public RO", after: "no snmp-server community public RO\nsnmp-server group NETSAGE v3 priv" },
-      fortinet: { before: "set allowaccess ping https http ssh telnet", after: "set allowaccess ping https ssh" },
-      juniper: { before: "snmp {\n    community public {\n        authorization read-only;\n    }\n}", after: "snmp {\n    v3 {\n        usm { local-engine { user netsage { authentication-sha { ... } } } }\n    }\n}" },
-      paloalto: { before: '"snmp-setting": { "version": "v2c", "community": "public" }', after: '"snmp-setting": { "version": "v3" }' },
-      generic: { before: "default community / unused daemons", after: "SNMPv3 only, unused services disabled" },
+      cisco: {
+        before: "snmp-server community public RO",
+        after: "no snmp-server community public RO\nsnmp-server group NETSAGE v3 priv",
+      },
+      fortinet: {
+        before: "set allowaccess ping https http ssh telnet",
+        after: "set allowaccess ping https ssh",
+      },
+      juniper: {
+        before: "snmp {\n    community public {\n        authorization read-only;\n    }\n}",
+        after:
+          "snmp {\n    v3 {\n        usm { local-engine { user netsage { authentication-sha { ... } } } }\n    }\n}",
+      },
+      paloalto: {
+        before: '"snmp-setting": { "version": "v2c", "community": "public" }',
+        after: '"snmp-setting": { "version": "v3" }',
+      },
+      generic: {
+        before: "default community / unused daemons",
+        after: "SNMPv3 only, unused services disabled",
+      },
     },
   },
   {
@@ -513,11 +613,27 @@ const RULES: Rule[] = [
     complianceImpact: "Fails access enforcement controls (NIST AC-3).",
     evidenceKey: "adminAccess",
     remediation: {
-      cisco: { before: "line vty 0 4\n login", after: "ip access-list standard MGMT\n permit 10.10.20.0 0.0.0.255\nline vty 0 4\n access-class MGMT in" },
-      fortinet: { before: "set trusthost1 0.0.0.0 0.0.0.0", after: "set trusthost1 10.10.20.0 255.255.255.0" },
-      juniper: { before: "ssh {\n    root-login allow;\n}", after: "ssh {\n    root-login deny;\n    connection-limit 5;\n}" },
-      paloalto: { before: '"permitted-ip": {}', after: '"permitted-ip": { "entry": [{ "@name": "10.10.20.0/24" }] }' },
-      generic: { before: "admin access from any source", after: "management ACL restricted to jump hosts" },
+      cisco: {
+        before: "line vty 0 4\n login",
+        after:
+          "ip access-list standard MGMT\n permit 10.10.20.0 0.0.0.255\nline vty 0 4\n access-class MGMT in",
+      },
+      fortinet: {
+        before: "set trusthost1 0.0.0.0 0.0.0.0",
+        after: "set trusthost1 10.10.20.0 255.255.255.0",
+      },
+      juniper: {
+        before: "ssh {\n    root-login allow;\n}",
+        after: "ssh {\n    root-login deny;\n    connection-limit 5;\n}",
+      },
+      paloalto: {
+        before: '"permitted-ip": {}',
+        after: '"permitted-ip": { "entry": [{ "@name": "10.10.20.0/24" }] }',
+      },
+      generic: {
+        before: "admin access from any source",
+        after: "management ACL restricted to jump hosts",
+      },
     },
   },
   {
@@ -533,16 +649,30 @@ const RULES: Rule[] = [
     complianceImpact: "Fails authenticator management (NIST IA-5(1)).",
     evidenceKey: "passwordPolicy",
     remediation: {
-      cisco: { before: "! no password policy", after: "security passwords min-length 14\nlogin block-for 300 attempts 3 within 60" },
-      fortinet: { before: "config system password-policy\n    set status disable\nend", after: "config system password-policy\n    set status enable\n    set minimum-length 14\n    set expire-day 90\nend" },
-      juniper: { before: "# no password stanza", after: "system {\n    login {\n        password { minimum-length 14; change-type character-sets; }\n    }\n}" },
-      paloalto: { before: '"password-complexity": { "enabled": "no" }', after: '"password-complexity": { "enabled": "yes", "minimum-length": "14" }' },
+      cisco: {
+        before: "! no password policy",
+        after: "security passwords min-length 14\nlogin block-for 300 attempts 3 within 60",
+      },
+      fortinet: {
+        before: "config system password-policy\n    set status disable\nend",
+        after:
+          "config system password-policy\n    set status enable\n    set minimum-length 14\n    set expire-day 90\nend",
+      },
+      juniper: {
+        before: "# no password stanza",
+        after:
+          "system {\n    login {\n        password { minimum-length 14; change-type character-sets; }\n    }\n}",
+      },
+      paloalto: {
+        before: '"password-complexity": { "enabled": "no" }',
+        after: '"password-complexity": { "enabled": "yes", "minimum-length": "14" }',
+      },
       generic: { before: "no password policy", after: "min length 14, rotation, lockout" },
     },
   },
   {
     id: "CFG-010",
-    when: (f) => !Boolean(f.sshEnabled),
+    when: (f) => !f.sshEnabled,
     severity: "low",
     control: "Management Access",
     description: "No secure SSH management transport detected",
@@ -553,9 +683,16 @@ const RULES: Rule[] = [
     complianceImpact: "Fails encrypted remote access requirements.",
     evidenceKey: "ssh",
     remediation: {
-      cisco: { before: "! ssh not configured", after: "crypto key generate rsa modulus 2048\nip ssh version 2\nline vty 0 4\n transport input ssh" },
+      cisco: {
+        before: "! ssh not configured",
+        after:
+          "crypto key generate rsa modulus 2048\nip ssh version 2\nline vty 0 4\n transport input ssh",
+      },
       fortinet: { before: "set allowaccess ping https", after: "set allowaccess ping https ssh" },
-      juniper: { before: "# no ssh stanza", after: "system services {\n    ssh { protocol-version v2; }\n}" },
+      juniper: {
+        before: "# no ssh stanza",
+        after: "system services {\n    ssh { protocol-version v2; }\n}",
+      },
       paloalto: { before: '"disable-ssh": "yes"', after: '"disable-ssh": "no"' },
       generic: { before: "ssh not configured", after: "SSHv2 enabled on management lines" },
     },
@@ -581,7 +718,8 @@ export function runSecurityRules(model: NormalizedModel): Finding[] {
       frameworks: r.frameworks,
       frameworkRefs: r.frameworkRefs,
       risk: r.risk,
-      affectedConfig: control?.evidence || `${control?.label ?? r.control}: ${control?.value ?? "n/a"}`,
+      affectedConfig:
+        control?.evidence || `${control?.label ?? r.control}: ${control?.value ?? "n/a"}`,
       securityImpact: r.securityImpact,
       complianceImpact: r.complianceImpact,
       remediation: {
@@ -627,7 +765,8 @@ export function assessCompliance(findings: Finding[]): ComplianceResult[] {
       notApplicable,
       percentage: Math.round((passed / applicable) * 100),
       failedControls: relevant.map(
-        (f) => `${f.frameworkRefs.find((r) => framework.startsWith(r.split(" ")[0] ?? "")) ?? f.frameworkRefs[0]} — ${f.description}`,
+        (f) =>
+          `${f.frameworkRefs.find((r) => framework.startsWith(r.split(" ")[0] ?? "")) ?? f.frameworkRefs[0]} — ${f.description}`,
       ),
     };
   });
@@ -644,7 +783,11 @@ export function analyzeConfiguration(input: {
 }): AnalysisResult {
   const detection =
     input.vendorHint && input.vendorHint !== "generic"
-      ? { ...detectVendor(input.raw), vendor: input.vendorHint, vendorLabel: VENDOR_LABELS[input.vendorHint] }
+      ? {
+          ...detectVendor(input.raw),
+          vendor: input.vendorHint,
+          vendorLabel: VENDOR_LABELS[input.vendorHint],
+        }
       : detectVendor(input.raw);
   const normalized = normalizeConfig(input.raw, detection.vendor);
   const findings = runSecurityRules(normalized);
@@ -659,7 +802,9 @@ export function analyzeConfiguration(input: {
     findings,
     securityScore: computeSecurityScore(findings),
     compliance,
-    complianceScore: Math.round(compliance.reduce((s, c) => s + c.percentage, 0) / compliance.length),
+    complianceScore: Math.round(
+      compliance.reduce((s, c) => s + c.percentage, 0) / compliance.length,
+    ),
     timestamp: new Date().toISOString(),
   };
 }
@@ -673,7 +818,11 @@ export function severityCounts(findings: Finding[]) {
   };
 }
 
-export function analyzeConfig(config: string, vendor: Vendor, framework: Framework): AnalysisResult {
+export function analyzeConfig(
+  config: string,
+  vendor: Vendor,
+  framework: Framework,
+): AnalysisResult {
   return analyzeConfiguration({
     raw: config,
     fileName: "config.cfg",

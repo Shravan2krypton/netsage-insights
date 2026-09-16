@@ -16,25 +16,25 @@ Build it as a professional enterprise/government cybersecurity dashboard.
 
 Create a clean authentication screen with:
 
- Email
+Email
 
- Password
+Password
 
- Login
+Login
 
 After login, show the main dashboard.
 
 Dashboard cards:
 
- Devices Analyzed
+Devices Analyzed
 
- Configurations Processed
+Configurations Processed
 
- Security Findings
+Security Findings
 
- Compliance Score
+Compliance Score
 
- Critical Issues
+Critical Issues
 
 Add a recent analysis table.
 
@@ -44,15 +44,15 @@ Create an Upload Configuration page.
 
 Support:
 
- Cisco
+Cisco
 
- Fortinet
+Fortinet
 
- Juniper
+Juniper
 
- Palo Alto
+Palo Alto
 
- Generic configuration
+Generic configuration
 
 Allow upload of:
 
@@ -109,27 +109,27 @@ Normalized Security Model
 
 Show normalized fields such as:
 
- Hostname
+Hostname
 
- Management Access
+Management Access
 
- Authentication
+Authentication
 
- Password Policy
+Password Policy
 
- SSH
+SSH
 
- Telnet
+Telnet
 
- Logging
+Logging
 
- NTP
+NTP
 
- ACL / Firewall Rules
+ACL / Firewall Rules
 
- Unused Services
+Unused Services
 
- Administrative Access
+Administrative Access
 
 Show each normalized control with status:
 
@@ -145,21 +145,21 @@ Run deterministic security rules against the normalized configuration.
 
 Example rules:
 
- Telnet enabled
+Telnet enabled
 
- Weak authentication configuration
+Weak authentication configuration
 
- Missing logging
+Missing logging
 
- Missing NTP
+Missing NTP
 
- Insecure management access
+Insecure management access
 
- Overly permissive access rule
+Overly permissive access rule
 
- Unused service enabled
+Unused service enabled
 
- Missing access-control restriction
+Missing access-control restriction
 
 Assign severity:
 
@@ -206,21 +206,21 @@ These are demo values and should be clearly treated as prototype/sample assessme
 
 Create a security posture dashboard containing:
 
- Overall Security Score
+Overall Security Score
 
- Compliance Score
+Compliance Score
 
- Critical Findings
+Critical Findings
 
- High Findings
+High Findings
 
- Medium Findings
+Medium Findings
 
- Low Findings
+Low Findings
 
- Passed Controls
+Passed Controls
 
- Failed Controls
+Failed Controls
 
 Include charts and clean visual indicators.
 
@@ -240,15 +240,15 @@ Clicking a finding opens a detailed panel.
 
 Show:
 
- Why it is risky
+Why it is risky
 
- Affected configuration
+Affected configuration
 
- Security impact
+Security impact
 
- Compliance impact
+Compliance impact
 
- Recommended remediation
+Recommended remediation
 
 9. AI-ASSISTED REMEDIATION
 
@@ -286,23 +286,23 @@ Create a Generate Security Report button.
 
 Generate a professional PDF containing:
 
- Executive Summary
+Executive Summary
 
- Configuration Overview
+Configuration Overview
 
- Security Score
+Security Score
 
- Compliance Scores
+Compliance Scores
 
- Findings
+Findings
 
- Severity Distribution
+Severity Distribution
 
- Failed Controls
+Failed Controls
 
- Remediation Recommendations
+Remediation Recommendations
 
- Assessment Timestamp
+Assessment Timestamp
 
 Add:
 
@@ -312,15 +312,15 @@ Download PDF Report
 
 Add an Audit Log page showing:
 
- User
+User
 
- Action
+Action
 
- Timestamp
+Timestamp
 
- Configuration
+Configuration
 
- Result
+Result
 
 Example:
 
@@ -336,19 +336,19 @@ Use a polished enterprise cybersecurity interface.
 
 Visual language:
 
- clean light background
+clean light background
 
- dark navy typography
+dark navy typography
 
- blue/cyan primary accents
+blue/cyan primary accents
 
- purple for AI
+purple for AI
 
- green for passed controls
+green for passed controls
 
- amber for warnings
+amber for warnings
 
- red for critical findings
+red for critical findings
 
 Use a persistent left sidebar:
 
