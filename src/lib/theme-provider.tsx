@@ -13,12 +13,12 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const THEME_STORAGE_KEY = "netsage-theme";
 
 function getSystemTheme(): "light" | "dark" {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light"; // Default to light for SSR consistency
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 function getStoredTheme(): Theme {
-  if (typeof window === "undefined") return "system";
+  if (typeof window === "undefined") return "light"; // Default to light for SSR consistency
   try {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
     if (stored === "light" || stored === "dark" || stored === "system") {
@@ -27,7 +27,7 @@ function getStoredTheme(): Theme {
   } catch (e) {
     console.warn("Failed to read theme from localStorage", e);
   }
-  return "system";
+  return "light"; // Default to light for consistency
 }
 
 function resolveTheme(theme: Theme): "light" | "dark" {
@@ -38,10 +38,9 @@ function resolveTheme(theme: Theme): "light" | "dark" {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => getStoredTheme());
-  const [actualTheme, setActualTheme] = useState<"light" | "dark">(() =>
-    resolveTheme(getStoredTheme()),
-  );
+  const [mounted, setMounted] = useState(false);
+  const [theme, setThemeState] = useState<Theme>("light"); // Start with light for SSR
+  const [actualTheme, setActualTheme] = useState<"light" | "dark">("light");
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -52,23 +51,41 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Initialize theme on mount to avoid SSR mismatch
   useEffect(() => {
+    setMounted(true);
+    const storedTheme = getStoredTheme();
+    setThemeState(storedTheme);
+    setActualTheme(resolveTheme(storedTheme));
+
+    // Apply theme immediately on mount to prevent flash
+    const resolved = resolveTheme(storedTheme);
+    const root = document.documentElement;
+    root.classList.remove("dark"); // Ensure dark class is removed first
+    if (resolved === "dark") {
+      root.classList.add("dark");
+    }
+    root.style.setProperty("--initial-theme", resolved);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const resolved = resolveTheme(theme);
     setActualTheme(resolved);
 
     const root = document.documentElement;
+    root.classList.remove("dark"); // Ensure clean state
     if (resolved === "dark") {
       root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
     }
 
     // Ensure CSS variables are set
     root.style.setProperty("--initial-theme", resolved);
-  }, [theme]);
+  }, [theme, mounted]);
 
   useEffect(() => {
-    if (theme !== "system") return;
+    if (!mounted || theme !== "system") return;
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = () => {
@@ -87,7 +104,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [theme]);
+  }, [theme, mounted]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, actualTheme }}>
@@ -102,24 +119,4 @@ export function useTheme() {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
-}
-
-// Prevent flash of incorrect theme on initial load
-export function preventThemeFlash() {
-  if (typeof window === "undefined") return;
-
-  const stored = getStoredTheme();
-  const resolved = resolveTheme(stored);
-
-  const root = document.documentElement;
-
-  // Apply theme class immediately
-  if (resolved === "dark") {
-    root.classList.add("dark");
-  } else {
-    root.classList.remove("dark");
-  }
-
-  // Set CSS variables immediately to prevent flash
-  root.style.setProperty("--initial-theme", resolved);
 }

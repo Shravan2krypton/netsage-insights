@@ -1,12 +1,18 @@
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useTheme } from "@/lib/theme-provider";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function ThemeSelector() {
   const { theme, setTheme, actualTheme } = useTheme();
   const [isAnimating, setIsAnimating] = useState(false);
   const [iconRotation, setIconRotation] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch by only rendering after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const themes: Array<"light" | "dark" | "system"> = ["light", "dark", "system"];
   const currentIndex = theme ? themes.indexOf(theme) : 0;
@@ -41,6 +47,18 @@ export function ThemeSelector() {
       : theme
         ? theme.charAt(0).toUpperCase() + theme.slice(1)
         : "System";
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <button
+        className="relative flex h-10 w-10 items-center justify-center rounded-xl border transition-all duration-300 bg-[var(--surface)] border-[var(--border)] text-[var(--foreground)]"
+        disabled
+      >
+        <Sun className="h-5 w-5" />
+      </button>
+    );
+  }
 
   return (
     <button

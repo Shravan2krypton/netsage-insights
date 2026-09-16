@@ -10,13 +10,10 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { NetsageProvider } from "@/lib/netsage/store";
-import { ThemeProvider, preventThemeFlash } from "@/lib/theme-provider";
+import { ThemeProvider } from "@/lib/theme-provider";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-
-// Prevent theme flash on initial load
-preventThemeFlash();
 
 function NotFoundComponent() {
   return (
@@ -120,11 +117,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased selection:bg-[var(--primary)]/20 selection:text-[var(--primary)] transition-colors duration-300">
+      <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased selection:bg-[var(--primary)]/20 selection:text-[var(--primary)] transition-colors duration-300" suppressHydrationWarning>
         {children}
         <Scripts />
       </body>
