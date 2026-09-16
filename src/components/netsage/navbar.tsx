@@ -33,16 +33,16 @@ export function AppNavbar({ currentPath, activeRoute }: NavbarProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm transition-colors">
+    <header className="sticky top-0 z-50 w-full border-b border-sky-500/20 bg-[#07192c]/90 backdrop-blur-md transition-colors">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
         <Link to="/" className="group flex items-center gap-3 transition-transform active:scale-98">
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-slate-200 shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:border-slate-300">
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-[#0a2139] border border-sky-500/30 shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:border-orange-400/50">
             <img src="/logo.png" alt="NetSage Logo" className="h-6 w-6 object-contain transition-transform duration-300 group-hover:scale-105" />
           </div>
           <div>
-            <span className="font-sans text-lg font-bold tracking-tight text-slate-900">
-              Net<span className="text-blue-600">Sage</span>
+            <span className="font-sans text-lg font-bold tracking-tight text-white">
+              Net<span className="text-sky-400">Sage</span>
             </span>
           </div>
         </Link>
@@ -63,14 +63,14 @@ export function AppNavbar({ currentPath, activeRoute }: NavbarProps) {
                 className={cn(
                   "relative flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition-all duration-200",
                   isActive
-                    ? "bg-blue-50 text-blue-600 font-semibold"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    ? "bg-sky-500/15 text-sky-300 font-semibold border border-sky-500/30 shadow-[0_0_12px_rgba(56,189,248,0.15)]"
+                    : "text-sky-200/70 hover:bg-sky-500/10 hover:text-white"
                 )}
               >
-                <Icon className={cn("h-4 w-4", isActive ? "text-blue-600" : "text-slate-400")} />
+                <Icon className={cn("h-4 w-4", isActive ? "text-sky-400" : "text-sky-300/60")} />
                 <span>{item.label}</span>
                 {isActive && (
-                  <span className="absolute -bottom-[17px] left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-blue-600" />
+                  <span className="absolute -bottom-[17px] left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.8)]" />
                 )}
               </Link>
             );
@@ -80,10 +80,10 @@ export function AppNavbar({ currentPath, activeRoute }: NavbarProps) {
         {/* Right Actions & Utilities */}
         <div className="flex items-center gap-2.5">
           {/* AI Engine Status Beacon */}
-          <div className="hidden items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 lg:flex">
+          <div className="hidden items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-300 lg:flex">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75"></span>
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-400"></span>
             </span>
             <span>4 Vendors Online</span>
           </div>
@@ -91,7 +91,7 @@ export function AppNavbar({ currentPath, activeRoute }: NavbarProps) {
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 md:hidden hover:text-slate-700"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-sky-500/30 bg-[#0a2139] text-sky-200 md:hidden hover:text-white hover:border-orange-400/50"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -100,7 +100,7 @@ export function AppNavbar({ currentPath, activeRoute }: NavbarProps) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="border-b border-slate-200 bg-white/95 px-4 py-4 backdrop-blur-sm md:hidden animate-in slide-in-from-top-2">
+        <div className="border-b border-sky-500/20 bg-[#07192c]/98 px-4 py-4 backdrop-blur-md md:hidden animate-in slide-in-from-top-2">
           <div className="space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -117,11 +117,11 @@ export function AppNavbar({ currentPath, activeRoute }: NavbarProps) {
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-blue-50 text-blue-600 font-semibold"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                      ? "bg-sky-500/15 text-sky-300 font-semibold border border-sky-500/30"
+                      : "text-sky-200/70 hover:bg-sky-500/10 hover:text-white"
                   )}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-4 w-4 text-sky-400" />
                   <span>{item.label}</span>
                 </Link>
               );

@@ -21,24 +21,24 @@ export function StatCard({
 }) {
   const tones = {
     default: {
-      card: "border-slate-200 bg-white hover:border-blue-300 hover:shadow-md",
-      iconBg: "bg-blue-50 text-blue-600 border-blue-200",
+      card: "border-sky-500/20 bg-[#0a2139]/85 backdrop-blur-md hover:border-sky-400/50 hover:shadow-[0_4px_20px_rgba(56,189,248,0.15)]",
+      iconBg: "bg-sky-500/15 text-sky-300 border-sky-500/30",
     },
     ai: {
-      card: "border-purple-200 bg-white hover:border-purple-300 hover:shadow-md",
-      iconBg: "bg-purple-50 text-purple-600 border-purple-200",
+      card: "border-sky-500/20 bg-[#0a2139]/85 backdrop-blur-md hover:border-orange-400/50 hover:shadow-[0_4px_20px_rgba(251,146,60,0.15)]",
+      iconBg: "bg-orange-500/15 text-orange-400 border-orange-500/30",
     },
     pass: {
-      card: "border-emerald-200 bg-white hover:border-emerald-300 hover:shadow-md",
-      iconBg: "bg-emerald-50 text-emerald-600 border-emerald-200",
+      card: "border-sky-500/20 bg-[#0a2139]/85 backdrop-blur-md hover:border-emerald-400/50 hover:shadow-[0_4px_20px_rgba(52,211,153,0.15)]",
+      iconBg: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
     },
     warn: {
-      card: "border-amber-200 bg-white hover:border-amber-300 hover:shadow-md",
-      iconBg: "bg-amber-50 text-amber-600 border-amber-200",
+      card: "border-orange-500/25 bg-[#0a2139]/85 backdrop-blur-md hover:border-orange-400/50 hover:shadow-[0_4px_20px_rgba(251,146,60,0.15)]",
+      iconBg: "bg-orange-500/15 text-orange-400 border-orange-500/30",
     },
     crit: {
-      card: "border-red-200 bg-white hover:border-red-300 hover:shadow-md",
-      iconBg: "bg-red-50 text-red-600 border-red-200",
+      card: "border-rose-500/25 bg-[#0a2139]/85 backdrop-blur-md hover:border-rose-400/50 hover:shadow-[0_4px_20px_rgba(244,63,94,0.15)]",
+      iconBg: "bg-rose-500/15 text-rose-400 border-rose-500/30",
     },
   };
 
@@ -67,10 +67,10 @@ export function StatCard({
             className={cn(
               "rounded-full px-2 py-0.5 font-mono text-xs font-semibold",
               trend.startsWith("+")
-                ? "bg-pass/15 text-pass"
+                ? "bg-pass/15 text-pass border border-pass/30"
                 : trend.startsWith("-")
-                  ? "bg-crit/15 text-crit"
-                  : "bg-muted text-muted-foreground"
+                  ? "bg-crit/15 text-crit border border-crit/30"
+                  : "bg-muted text-muted-foreground border border-border"
             )}
           >
             {trend}
@@ -86,23 +86,23 @@ export function StatCard({
 export function SeverityBadge({ severity }: { severity: Severity }) {
   const map: Record<Severity, { badge: string; dot: string; text: string }> = {
     critical: {
-      badge: "bg-red-50 text-red-600 border-red-200",
-      dot: "bg-red-500 animate-ping",
+      badge: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+      dot: "bg-rose-500 animate-ping",
       text: "CRITICAL",
     },
     high: {
-      badge: "bg-amber-50 text-amber-600 border-amber-200",
-      dot: "bg-amber-500",
+      badge: "bg-orange-500/15 text-orange-300 border-orange-500/30",
+      dot: "bg-orange-400",
       text: "HIGH",
     },
     medium: {
-      badge: "bg-sky-50 text-sky-600 border-sky-200",
-      dot: "bg-sky-500",
+      badge: "bg-sky-500/15 text-sky-300 border-sky-500/30",
+      dot: "bg-sky-400",
       text: "MEDIUM",
     },
     low: {
-      badge: "bg-slate-100 text-slate-600 border-slate-200",
-      dot: "bg-slate-400",
+      badge: "bg-sky-500/10 text-sky-200 border-sky-500/20",
+      dot: "bg-sky-400/60",
       text: "LOW",
     },
   };
@@ -126,15 +126,15 @@ export function SeverityBadge({ severity }: { severity: Severity }) {
 export function StatusPill({ status }: { status: ControlStatus }) {
   const map: Record<ControlStatus, { cls: string; text: string }> = {
     valid: {
-      cls: "bg-emerald-50 text-emerald-600 border-emerald-200",
+      cls: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
       text: "✓ Valid",
     },
     review: {
-      cls: "bg-amber-50 text-amber-600 border-amber-200",
+      cls: "bg-orange-500/15 text-orange-300 border-orange-500/30",
       text: "⚠ Needs Review",
     },
     failed: {
-      cls: "bg-red-50 text-red-600 border-red-200",
+      cls: "bg-rose-500/15 text-rose-300 border-rose-500/30",
       text: "✕ Failed",
     },
   };

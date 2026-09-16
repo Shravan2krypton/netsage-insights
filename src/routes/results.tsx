@@ -92,12 +92,13 @@ function Results() {
           <div>
             <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-0.5 font-mono text-xs font-semibold text-blue-600 mb-2">
               <Shield className="h-3.5 w-3.5" />
+              <AlertTriangle className="h-3.5 w-3.5 text-orange-400" />
               <span>Audit Findings & Remediation</span>
             </div>
-            <h1 className="font-sans text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            <h1 className="font-sans text-2xl font-bold tracking-tight text-white sm:text-3xl">
               Compliance Results & Security Findings
             </h1>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-sky-200/70">
               Deterministic violations detected across CIS, NIST SP 800-53, DoD STIG, and ISO 27001 baselines.
             </p>
           </div>
@@ -105,7 +106,7 @@ function Results() {
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => handleExportPDF(ciscoAnalysis)}
-              className="flex items-center gap-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-all active:scale-98"
+              className="flex items-center gap-1.5 rounded-lg bg-orange-500 hover:bg-orange-400 px-3.5 py-2 text-xs font-semibold text-[#07192c] shadow-md transition-all active:scale-98 hover:shadow-[0_0_15px_rgba(251,146,60,0.4)]"
             >
               <Download className="h-3.5 w-3.5" />
               <span>Export Executive PDF</span>
@@ -119,70 +120,70 @@ function Results() {
             onClick={() => setSelectedSeverity("all")}
             className={`rounded-xl border p-4 text-left transition-all ${
               selectedSeverity === "all"
-                ? "border-blue-500 bg-blue-50 shadow-sm"
-                : "border-slate-200 bg-white hover:border-blue-300"
+                ? "border-sky-400 bg-sky-500/20 shadow-[0_0_15px_rgba(56,189,248,0.2)]"
+                : "border-sky-500/20 bg-[#0a2139]/80 backdrop-blur-md hover:border-sky-400/40"
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-600">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-sky-300">
               <span>Total Findings</span>
-              <AlertTriangle className="h-4 w-4 text-blue-600" />
+              <AlertTriangle className="h-4 w-4 text-sky-400" />
             </div>
-            <p className="mt-2 font-sans text-3xl font-extrabold text-slate-900">{allFindings.length}</p>
-            <p className="mt-1 text-[11px] text-slate-500">Across 4 audited devices</p>
+            <p className="mt-2 font-sans text-3xl font-extrabold text-white">{allFindings.length}</p>
+            <p className="mt-1 text-[11px] text-sky-200/60">Across 4 audited devices</p>
           </button>
 
           <button
             onClick={() => setSelectedSeverity("critical")}
             className={`rounded-xl border p-4 text-left transition-all ${
               selectedSeverity === "critical"
-                ? "border-red-500 bg-red-50 shadow-sm"
-                : "border-red-200 bg-red-50/50 hover:border-red-300"
+                ? "border-rose-500 bg-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.2)]"
+                : "border-rose-500/20 bg-[#0a2139]/80 backdrop-blur-md hover:border-rose-400/40"
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-red-600">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-rose-300">
               <span>Critical Risk</span>
-              <XCircle className="h-4 w-4 text-red-600" />
+              <XCircle className="h-4 w-4 text-rose-400" />
             </div>
-            <p className="mt-2 font-sans text-3xl font-extrabold text-red-600">
+            <p className="mt-2 font-sans text-3xl font-extrabold text-rose-400">
               {allFindings.filter((f) => f.severity === "critical").length}
             </p>
-            <p className="mt-1 text-[11px] text-red-500">Immediate patch required</p>
+            <p className="mt-1 text-[11px] text-rose-300/60">Immediate patch required</p>
           </button>
 
           <button
             onClick={() => setSelectedSeverity("high")}
             className={`rounded-xl border p-4 text-left transition-all ${
               selectedSeverity === "high"
-                ? "border-amber-500 bg-amber-50 shadow-sm"
-                : "border-amber-200 bg-amber-50/50 hover:border-amber-300"
+                ? "border-orange-500 bg-orange-500/20 shadow-[0_0_15px_rgba(251,146,60,0.2)]"
+                : "border-orange-500/20 bg-[#0a2139]/80 backdrop-blur-md hover:border-orange-400/40"
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-amber-600">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-orange-300">
               <span>High Severity</span>
-              <AlertTriangle className="h-4 w-4 text-amber-600" />
+              <AlertTriangle className="h-4 w-4 text-orange-400" />
             </div>
-            <p className="mt-2 font-sans text-3xl font-extrabold text-amber-600">
+            <p className="mt-2 font-sans text-3xl font-extrabold text-orange-400">
               {allFindings.filter((f) => f.severity === "high").length}
             </p>
-            <p className="mt-1 text-[11px] text-amber-500">Significant policy gaps</p>
+            <p className="mt-1 text-[11px] text-orange-300/60">Significant policy gaps</p>
           </button>
 
           <button
             onClick={() => setSelectedSeverity("medium")}
             className={`rounded-xl border p-4 text-left transition-all ${
               selectedSeverity === "medium"
-                ? "border-sky-500 bg-sky-50 shadow-sm"
-                : "border-sky-200 bg-sky-50/50 hover:border-sky-300"
+                ? "border-sky-400 bg-sky-500/20 shadow-[0_0_15px_rgba(56,189,248,0.2)]"
+                : "border-sky-500/20 bg-[#0a2139]/80 backdrop-blur-md hover:border-sky-400/40"
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-sky-600">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-sky-300">
               <span>Medium / Low</span>
-              <AlertTriangle className="h-4 w-4 text-sky-600" />
+              <AlertTriangle className="h-4 w-4 text-sky-400" />
             </div>
-            <p className="mt-2 font-sans text-3xl font-extrabold text-sky-600">
+            <p className="mt-2 font-sans text-3xl font-extrabold text-sky-300">
               {allFindings.filter((f) => f.severity === "medium" || f.severity === "low").length}
             </p>
-            <p className="mt-1 text-[11px] text-sky-500">Recommended hardening</p>
+            <p className="mt-1 text-[11px] text-sky-200/60">Recommended hardening</p>
           </button>
         </div>
 

@@ -144,21 +144,21 @@ function Audit() {
         {/* Header Title */}
         <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-0.5 font-mono text-xs font-semibold text-blue-600 mb-2">
-              <UploadCloud className="h-3.5 w-3.5" />
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-0.5 font-mono text-xs font-semibold text-sky-300 mb-2">
+              <UploadCloud className="h-3.5 w-3.5 text-orange-400" />
               <span>Multi-Vendor Ingestion</span>
             </div>
-            <h1 className="font-sans text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            <h1 className="font-sans text-2xl font-bold tracking-tight text-white sm:text-3xl">
               Configuration Audit Hub
             </h1>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-sky-200/70">
               Ingest raw network configurations to trigger automated AI normalization and compliance evaluation.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs font-medium text-slate-600">
-              Queue: <span className="font-bold text-slate-900">{uploadedVendors.length} files</span>
+            <span className="rounded-lg border border-sky-500/30 bg-[#0a2139]/80 px-3 py-1.5 font-mono text-xs font-medium text-sky-300">
+              Queue: <span className="font-bold text-white">{uploadedVendors.length} files</span>
             </span>
           </div>
         </div>
@@ -184,8 +184,8 @@ function Audit() {
               }}
               className={`relative overflow-hidden rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-300 ${
                 isDragging
-                  ? "border-blue-500 bg-blue-50 scale-[1.01]"
-                  : "border-slate-300 bg-slate-50 hover:border-blue-400 hover:bg-white"
+                  ? "border-orange-400 bg-orange-500/15 scale-[1.01]"
+                  : "border-sky-500/30 bg-[#0a2139]/60 hover:border-orange-400/60 hover:bg-[#0a2139]/85 backdrop-blur-md"
               }`}
             >
               <input
@@ -196,21 +196,21 @@ function Audit() {
                 className="hidden"
               />
 
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 text-blue-600 shadow-sm">
-                <UploadCloud className="h-7 w-7" />
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-sky-500/30 bg-sky-500/15 text-sky-300 shadow-sm">
+                <UploadCloud className="h-7 w-7 text-sky-400" />
               </div>
 
-              <h2 className="mt-4 font-sans text-base font-bold text-slate-900">
+              <h2 className="mt-4 font-sans text-base font-bold text-white">
                 Drag and drop network configuration files here
               </h2>
-              <p className="mt-1 text-xs text-slate-600 max-w-md mx-auto">
-                Supports Cisco IOS (<code className="text-slate-900">.cfg</code>), FortiOS (<code className="text-slate-900">.conf</code>), Junos OS (<code className="text-slate-900">.txt</code>), and PAN-OS (<code className="text-slate-900">.json</code>)
+              <p className="mt-1 text-xs text-sky-200/70 max-w-md mx-auto">
+                Supports Cisco IOS (<code className="text-sky-300 font-semibold">.cfg</code>), FortiOS (<code className="text-sky-300 font-semibold">.conf</code>), Junos OS (<code className="text-sky-300 font-semibold">.txt</code>), and PAN-OS (<code className="text-sky-300 font-semibold">.json</code>)
               </p>
 
               <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-all active:scale-98"
+                  className="rounded-xl bg-sky-500 hover:bg-sky-400 px-4 py-2 text-xs font-semibold text-[#07192c] shadow-md transition-all active:scale-98 hover:shadow-[0_0_15px_rgba(56,189,248,0.4)]"
                 >
                   Browse Files from Device
                 </button>
