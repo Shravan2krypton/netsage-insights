@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { AppNavbar } from "@/components/netsage/navbar";
+import { PageBackground } from "@/components/netsage/PageBackground";
 import { SeverityBadge, ScoreRing, ConfigViewer, StatusPill } from "@/components/netsage/primitives";
 import { DEMO_CONFIGS } from "../lib/netsage/demo-configs";
 import { analyzeConfig } from "../lib/netsage/engine";
@@ -86,7 +87,8 @@ function DeviceDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20 relative z-0">
+      <PageBackground variant="results" />
       <AppNavbar />
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

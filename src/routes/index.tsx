@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { AppNavbar } from "@/components/netsage/navbar";
 import { StatCard, StatusPill } from "@/components/netsage/primitives";
+import { PageBackground } from "@/components/netsage/PageBackground";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -141,7 +142,8 @@ function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900 relative">
+      <PageBackground variant="dashboard" />
       <AppNavbar currentPath="/" />
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">

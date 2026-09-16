@@ -22,10 +22,11 @@ import {
   Clock,
   HardDrive,
 } from "lucide-react";
+import { AppNavbar } from "../components/netsage/navbar";
+import { PageBackground } from "@/components/netsage/PageBackground";
 import { DEMO_CONFIGS } from "../lib/netsage/demo-configs";
 import { analyzeConfig, type AnalysisResult } from "../lib/netsage/engine";
 import { generateReport } from "../lib/netsage/pdf";
-import { AppNavbar } from "../components/netsage/navbar";
 import { VendorBadge, StatusPill, ScoreRing } from "../components/netsage/primitives";
 import { toast } from "sonner";
 
@@ -177,7 +178,8 @@ function Reports() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-[var(--primary)]/20 selection:text-[var(--primary)] flex flex-col">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-[var(--primary)]/20 selection:text-[var(--primary)] flex flex-col relative z-0">
+      <PageBackground variant="reports" />
       <AppNavbar activeRoute="reports" />
 
       {/* Cyber Grid Header */}

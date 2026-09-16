@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { AppNavbar } from "@/components/netsage/navbar";
+import { PageBackground } from "@/components/netsage/PageBackground";
 import { ConfigViewer, StatusPill } from "@/components/netsage/primitives";
 import { DEMO_CONFIGS } from "../lib/netsage/demo-configs";
 import { analyzeConfig } from "../lib/netsage/engine";
@@ -124,7 +125,8 @@ function Analysis() {
         });
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900 relative">
+      <PageBackground variant="analysis" />
       <AppNavbar currentPath="/analysis" />
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">

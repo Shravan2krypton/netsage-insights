@@ -38,7 +38,7 @@ export function AppNavbar({ currentPath, activeRoute }: NavbarProps) {
         {/* Brand Logo */}
         <Link to="/" className="group flex items-center gap-3 transition-transform active:scale-98">
           <div className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-white border border-slate-200 shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:border-slate-300">
-            <img src="/logosih.png" alt="NetSage Logo" className="h-6 w-6 object-contain transition-transform duration-300 group-hover:scale-105" />
+            <img src="/logo.png" alt="NetSage Logo" className="h-6 w-6 object-contain transition-transform duration-300 group-hover:scale-105" />
           </div>
           <div>
             <span className="font-sans text-lg font-bold tracking-tight text-slate-900">

@@ -21,6 +21,7 @@ import {
   Terminal,
 } from "lucide-react";
 import { AppNavbar } from "../components/netsage/navbar";
+import { PageBackground } from "@/components/netsage/PageBackground";
 import { VendorBadge, StatusPill } from "../components/netsage/primitives";
 import { toast } from "sonner";
 
@@ -173,7 +174,8 @@ function Learning() {
   }, [knowledgeBase, searchQuery, selectedVendorFilter]);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-[var(--primary)]/20 selection:text-[var(--primary)] flex flex-col">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-[var(--primary)]/20 selection:text-[var(--primary)] flex flex-col relative z-0">
+      <PageBackground variant="learning" />
       <AppNavbar activeRoute="learning" />
 
       {/* Cyber Grid Subheader */}

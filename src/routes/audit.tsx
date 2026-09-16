@@ -17,6 +17,7 @@ import {
   Info,
 } from "lucide-react";
 import { AppNavbar } from "@/components/netsage/navbar";
+import { PageBackground } from "@/components/netsage/PageBackground";
 import { DEMO_CONFIGS } from "../lib/netsage/demo-configs";
 import { analyzeConfig } from "../lib/netsage/engine";
 import { useNetsage } from "../lib/netsage/store";
@@ -135,7 +136,8 @@ function Audit() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900 relative">
+      <PageBackground variant="audit" />
       <AppNavbar currentPath="/audit" />
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">

@@ -65,7 +65,7 @@
 
 :root {
   --radius: 0.75rem;
-  --background: #FFFFFF;
+  --background: #F4F7FB; /* Subtly tinted cool blue base */
   --foreground: #0F172A;
   --card: #FFFFFF;
   --card-foreground: #0F172A;
@@ -73,30 +73,36 @@
   --popover-foreground: #0F172A;
   --primary: #1E3A8A;
   --primary-foreground: #FFFFFF;
-  --secondary: #F1F5F9;
+  --secondary: #E2E8F0;
   --secondary-foreground: #0F172A;
-  --muted: #F8FAFC;
-  --muted-foreground: #64748B;
+  --muted: #E2E8F0;
+  --muted-foreground: #475569;
   --accent: #F1F5F9;
   --accent-foreground: #0F172A;
   --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
-  --border: #E2E8F0;
-  --input: #E2E8F0;
+  --border: #CBD5E1;
+  --input: #CBD5E1;
   --ring: #1E3A8A;
   --chart-1: #1E3A8A;
   --chart-2: #10B981;
   --chart-3: #F59E0B;
   --chart-4: #8B5CF6;
   --chart-5: #EF4444;
-  --sidebar: #F8FAFC;
-  --sidebar-foreground: #64748B;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #475569;
   --sidebar-primary: #1E3A8A;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #F1F5F9;
   --sidebar-accent-foreground: #0F172A;
-  --sidebar-border: #E2E8F0;
+  --sidebar-border: #CBD5E1;
   --sidebar-ring: #1E3A8A;
+
+  /* Background Visual Effects */
+  --bg-blob-1: rgba(30, 58, 138, 0.04);
+  --bg-blob-2: rgba(245, 158, 11, 0.04);
+  --bg-blob-3: rgba(139, 92, 246, 0.03);
+  --bg-grid: rgba(15, 23, 42, 0.02);
 
   /* NETSAGE Professional Enterprise Palette */
   --ai: #8B5CF6;
@@ -147,6 +153,12 @@
   --sidebar-border: #334155;
   --sidebar-ring: #3B82F6;
 
+  /* Background Visual Effects */
+  --bg-blob-1: rgba(59, 130, 246, 0.03);
+  --bg-blob-2: rgba(245, 158, 11, 0.02);
+  --bg-blob-3: rgba(167, 139, 250, 0.02);
+  --bg-grid: rgba(248, 250, 252, 0.02);
+
   --ai: #A78BFA;
   --ai-glow: rgba(167, 139, 250, 0.2);
   --pass: #34D399;
@@ -185,8 +197,44 @@
   50% { opacity: 0.7; transform: scale(0.98); }
 }
 
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(10px); }
+}
+
+@keyframes float-slower {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(20px) translateX(-15px); }
+}
+
+@keyframes scan-slow {
+  0%, 100% { transform: translateY(-100%); }
+  50% { transform: translateY(100%); }
+}
+
+@keyframes pulse-slow-opacity {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
 .animate-stage {
   animation: netsage-pulse 1.4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 12s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float-slower 15s ease-in-out infinite;
+}
+
+.animate-scan-slow {
+  animation: scan-slow 10s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow-opacity 8s ease-in-out infinite;
 }
 
 /* Professional Panel Styles */
