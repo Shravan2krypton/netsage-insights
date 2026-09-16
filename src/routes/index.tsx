@@ -9,7 +9,6 @@ import {
   BarChart3,
   UploadCloud,
   ArrowRight,
-  Sparkles,
   CheckCircle2,
   AlertCircle,
   XCircle,
@@ -35,8 +34,8 @@ function Dashboard() {
       icon: UploadCloud,
       badge: "Fast Scan",
       onClick: () => navigate({ to: "/audit" }),
-      gradient: "from-blue-500/20 via-primary/10 to-transparent",
-      iconColor: "text-primary bg-primary/10 border-primary/20",
+      gradient: "from-blue-50 via-blue-100/50 to-transparent",
+      iconColor: "text-blue-600 bg-blue-50 border-blue-200",
     },
     {
       title: "View Security Findings",
@@ -44,8 +43,8 @@ function Dashboard() {
       icon: AlertTriangle,
       badge: "8 Critical",
       onClick: () => navigate({ to: "/results" }),
-      gradient: "from-warn/20 via-warn/10 to-transparent",
-      iconColor: "text-warn-strong bg-warn/15 border-warn/30",
+      gradient: "from-amber-50 via-amber-100/50 to-transparent",
+      iconColor: "text-amber-600 bg-amber-50 border-amber-200",
     },
     {
       title: "AI Configuration Pipeline",
@@ -53,8 +52,8 @@ function Dashboard() {
       icon: Brain,
       badge: "NLP Engine",
       onClick: () => navigate({ to: "/analysis" }),
-      gradient: "from-ai/20 via-ai/10 to-transparent",
-      iconColor: "text-ai bg-ai/15 border-ai/30",
+      gradient: "from-purple-50 via-purple-100/50 to-transparent",
+      iconColor: "text-purple-600 bg-purple-50 border-purple-200",
     },
     {
       title: "Adaptive Learning Hub",
@@ -62,8 +61,8 @@ function Dashboard() {
       icon: Zap,
       badge: "3 Pending",
       onClick: () => navigate({ to: "/learning" }),
-      gradient: "from-pass/20 via-pass/10 to-transparent",
-      iconColor: "text-pass bg-pass/15 border-pass/30",
+      gradient: "from-emerald-50 via-emerald-100/50 to-transparent",
+      iconColor: "text-emerald-600 bg-emerald-50 border-emerald-200",
     },
   ];
 
@@ -142,42 +141,28 @@ function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900">
       <AppNavbar currentPath="/" />
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
         {/* Executive Hero Banner */}
-        <div className="relative mb-8 overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-r from-card via-card to-primary/5 p-6 shadow-soft sm:p-8">
-          <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
-          <div className="absolute right-32 bottom-0 -mb-16 h-48 w-48 rounded-full bg-ai/10 blur-3xl" />
-
+        <div className="relative mb-8 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>Continuous Network Compliance Engine</span>
-              </div>
-              <h1 className="font-sans text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              <h1 className="font-sans text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
                 Network Security & Compliance Overview
               </h1>
-              <p className="max-w-2xl text-sm text-muted-foreground">
+              <p className="max-w-2xl text-sm text-slate-600">
                 Real-time multi-vendor configuration assessment, deterministic rule evaluation, and adaptive AI semantic interpretation across your enterprise fleet.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
               <button
-                onClick={() => navigate({ to: "/audit" })}
-                className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-primary/25 active:scale-98"
-              >
-                <UploadCloud className="h-4 w-4" />
-                <span>Run New Audit</span>
-              </button>
-              <button
                 onClick={() => navigate({ to: "/reports" })}
-                className="flex items-center gap-2 rounded-xl border border-border bg-card/80 px-4 py-2.5 text-sm font-semibold text-foreground backdrop-blur-sm transition-all hover:bg-muted active:scale-98"
+                className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-50 active:scale-98"
               >
-                <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                <BarChart3 className="h-4 w-4 text-slate-500" />
                 <span>Generate Report</span>
               </button>
             </div>
@@ -203,8 +188,8 @@ function Dashboard() {
         <div className="mb-8">
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold tracking-tight text-foreground">Operational Workflows</h2>
-              <p className="text-xs text-muted-foreground">Direct access to core compliance & assessment pipelines</p>
+              <h2 className="text-lg font-bold tracking-tight text-slate-900">Operational Workflows</h2>
+              <p className="text-xs text-slate-600">Direct access to core compliance & assessment pipelines</p>
             </div>
           </div>
 
@@ -215,7 +200,7 @@ function Dashboard() {
                 <button
                   key={action.title}
                   onClick={action.onClick}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border/80 bg-card/70 p-5 text-left backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-card hover:shadow-md"
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-slate-200 bg-white p-5 text-left transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-100`} />
 
@@ -223,19 +208,19 @@ function Dashboard() {
                     <div className={`flex h-11 w-11 items-center justify-center rounded-xl border ${action.iconColor}`}>
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="rounded-full border border-border bg-muted/70 px-2 py-0.5 font-mono text-[10px] font-semibold text-muted-foreground">
+                    <span className="rounded-full border border-slate-200 bg-slate-100 px-2 py-0.5 font-mono text-[10px] font-semibold text-slate-600">
                       {action.badge}
                     </span>
                   </div>
 
                   <div className="relative z-10 space-y-1.5">
-                    <h3 className="font-sans text-base font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                    <h3 className="font-sans text-base font-bold tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
                       {action.title}
                     </h3>
-                    <p className="text-xs leading-relaxed text-muted-foreground">{action.description}</p>
+                    <p className="text-xs leading-relaxed text-slate-600">{action.description}</p>
                   </div>
 
-                  <div className="relative z-10 mt-4 flex items-center gap-1 text-xs font-semibold text-primary">
+                  <div className="relative z-10 mt-4 flex items-center gap-1 text-xs font-semibold text-blue-600">
                     <span>Launch</span>
                     <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                   </div>
@@ -249,15 +234,15 @@ function Dashboard() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Recent Audits (2 columns) */}
           <div className="lg:col-span-2">
-            <div className="overflow-hidden rounded-xl border border-border/80 bg-card/80 shadow-soft backdrop-blur-md">
-              <div className="flex items-center justify-between border-b border-border/80 px-6 py-4">
+            <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+              <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
                 <div>
-                  <h2 className="text-base font-bold text-foreground">Recent Device Assessments</h2>
-                  <p className="text-xs text-muted-foreground">Latest configuration audit results</p>
+                  <h2 className="text-base font-bold text-slate-900">Recent Device Assessments</h2>
+                  <p className="text-xs text-slate-600">Latest configuration audit results</p>
                 </div>
                 <Link
                   to="/results"
-                  className="flex items-center gap-1 text-xs font-semibold text-primary transition-colors hover:text-primary/80"
+                  className="flex items-center gap-1 text-xs font-semibold text-blue-600 transition-colors hover:text-blue-700"
                 >
                   <span>View all results</span>
                   <ChevronRight className="h-3.5 w-3.5" />
@@ -267,7 +252,7 @@ function Dashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead>
-                    <tr className="border-b border-border/60 bg-muted/40 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                    <tr className="border-b border-slate-200 bg-slate-50 font-mono text-xs uppercase tracking-wider text-slate-600">
                       <th className="px-6 py-3 font-semibold">Device</th>
                       <th className="px-4 py-3 font-semibold">Vendor / OS</th>
                       <th className="px-4 py-3 font-semibold">Framework</th>
@@ -276,32 +261,32 @@ function Dashboard() {
                       <th className="px-6 py-3 font-semibold text-right">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border/60">
+                  <tbody className="divide-y divide-slate-200">
                     {recentAudits.map((item) => (
                       <tr
                         key={item.device}
                         onClick={() => navigate({ to: `/device/${item.device}` })}
-                        className="group cursor-pointer transition-colors hover:bg-muted/40"
+                        className="group cursor-pointer transition-colors hover:bg-slate-50"
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2.5">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-muted/50 text-foreground">
-                              <Server className="h-4 w-4 text-primary" />
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-100 text-slate-700">
+                              <Server className="h-4 w-4 text-blue-600" />
                             </div>
                             <div>
-                              <p className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                              <p className="font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
                                 {item.device}
                               </p>
-                              <p className="text-xs text-muted-foreground flex items-center gap-1">
+                              <p className="text-xs text-slate-500 flex items-center gap-1">
                                 <Clock className="h-3 w-3" />
                                 {item.time}
                               </p>
                             </div>
                           </div>
                         </td>
-                        <td className="px-4 py-4 text-xs font-medium text-foreground">{item.vendor}</td>
+                        <td className="px-4 py-4 text-xs font-medium text-slate-700">{item.vendor}</td>
                         <td className="px-4 py-4">
-                          <span className="rounded border border-border/80 bg-muted/50 px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
+                          <span className="rounded border border-slate-200 bg-slate-100 px-2 py-0.5 font-mono text-[11px] text-slate-600">
                             {item.framework}
                           </span>
                         </td>
@@ -309,15 +294,15 @@ function Dashboard() {
                           <div className="flex items-center gap-2">
                             <span
                               className={`font-mono text-xs font-bold ${
-                                item.score >= 80 ? "text-pass" : item.score >= 60 ? "text-warn-strong" : "text-crit"
+                                item.score >= 80 ? "text-emerald-600" : item.score >= 60 ? "text-amber-600" : "text-red-600"
                               }`}
                             >
                               {item.score}%
                             </span>
-                            <div className="h-1.5 w-16 overflow-hidden rounded-full bg-muted">
+                            <div className="h-1.5 w-16 overflow-hidden rounded-full bg-slate-200">
                               <div
                                 className={`h-full rounded-full ${
-                                  item.score >= 80 ? "bg-pass" : item.score >= 60 ? "bg-warn" : "bg-crit"
+                                  item.score >= 80 ? "bg-emerald-500" : item.score >= 60 ? "bg-amber-500" : "bg-red-500"
                                 }`}
                                 style={{ width: `${item.score}%` }}
                               />
@@ -328,7 +313,7 @@ function Dashboard() {
                           <StatusPill status={item.status} />
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <span className="inline-flex items-center gap-1 font-mono text-xs font-medium text-primary group-hover:underline">
+                          <span className="inline-flex items-center gap-1 font-mono text-xs font-medium text-blue-600 group-hover:underline">
                             Inspect
                             <ChevronRight className="h-3.5 w-3.5" />
                           </span>
@@ -343,36 +328,36 @@ function Dashboard() {
 
           {/* AI Adaptive Learning Spotlight (1 column) */}
           <div className="flex flex-col gap-4">
-            <div className="relative overflow-hidden rounded-xl border border-ai/30 bg-gradient-to-br from-ai/15 via-card to-card p-6 shadow-soft backdrop-blur-md">
+            <div className="relative overflow-hidden rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 via-white to-white p-6 shadow-sm">
               <div className="mb-4 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-ai/30 bg-ai/20 text-ai">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-200 bg-purple-50 text-purple-600">
                   <Brain className="h-5 w-5" />
                 </div>
-                <span className="inline-flex items-center gap-1 rounded-full border border-ai/30 bg-ai/10 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-ai">
-                  <span className="h-1.5 w-1.5 rounded-full bg-ai animate-pulse" />
+                <span className="inline-flex items-center gap-1 rounded-full border border-purple-200 bg-purple-100 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-purple-600">
+                  <span className="h-1.5 w-1.5 rounded-full bg-purple-500 animate-pulse" />
                   Self-Learning
                 </span>
               </div>
 
-              <h3 className="font-sans text-base font-bold text-foreground">Adaptive Intelligence Active</h3>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+              <h3 className="font-sans text-base font-bold text-slate-900">Adaptive Intelligence Active</h3>
+              <p className="mt-1.5 text-xs leading-relaxed text-slate-600">
                 When encountering unfamiliar proprietary commands, NetSage uses NLP to propose semantic mappings for administrator validation.
               </p>
 
-              <div className="mt-4 space-y-2 rounded-lg border border-border/80 bg-background/60 p-3 font-mono text-xs">
-                <div className="flex items-center justify-between text-muted-foreground">
+              <div className="mt-4 space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-3 font-mono text-xs">
+                <div className="flex items-center justify-between text-slate-600">
                   <span>Knowledge Base:</span>
-                  <span className="font-semibold text-foreground">47 Verified Rules</span>
+                  <span className="font-semibold text-slate-900">47 Verified Rules</span>
                 </div>
-                <div className="flex items-center justify-between text-muted-foreground">
+                <div className="flex items-center justify-between text-slate-600">
                   <span>Pending Human Review:</span>
-                  <span className="font-semibold text-warn-strong">3 New Mappings</span>
+                  <span className="font-semibold text-amber-600">3 New Mappings</span>
                 </div>
               </div>
 
               <button
                 onClick={() => navigate({ to: "/learning" })}
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-ai/20 border border-ai/40 py-2.5 text-xs font-semibold text-ai transition-colors hover:bg-ai/30 active:scale-98"
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-purple-100 border border-purple-200 py-2.5 text-xs font-semibold text-purple-600 transition-colors hover:bg-purple-200 active:scale-98"
               >
                 <span>Review Pending Mappings</span>
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -380,12 +365,12 @@ function Dashboard() {
             </div>
 
             {/* Architecture Card */}
-            <div className="rounded-xl border border-border/80 bg-card/70 p-5 shadow-soft backdrop-blur-md">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                <Layers className="h-4 w-4 text-primary" />
+            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-600">
+                <Layers className="h-4 w-4 text-blue-600" />
                 <span>Multi-Vendor Architecture</span>
               </div>
-              <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+              <p className="mt-2 text-xs text-slate-600 leading-relaxed">
                 Normalized data model abstracts syntax across Cisco IOS, FortiOS, Junos OS, and PAN-OS into standard compliance primitives.
               </p>
             </div>

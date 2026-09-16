@@ -81,21 +81,21 @@ function Results() {
   });
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900">
       <AppNavbar currentPath="/results" />
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
         {/* Header Title */}
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-0.5 font-mono text-xs font-semibold text-primary mb-2">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-0.5 font-mono text-xs font-semibold text-blue-600 mb-2">
               <Shield className="h-3.5 w-3.5" />
               <span>Audit Findings & Remediation</span>
             </div>
-            <h1 className="font-sans text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <h1 className="font-sans text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
               Compliance Results & Security Findings
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-slate-600">
               Deterministic violations detected across CIS, NIST SP 800-53, DoD STIG, and ISO 27001 baselines.
             </p>
           </div>
@@ -103,7 +103,7 @@ function Results() {
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => handleExportPDF(ciscoAnalysis)}
-              className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-98"
+              className="flex items-center gap-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-all active:scale-98"
             >
               <Download className="h-3.5 w-3.5" />
               <span>Export Executive PDF</span>
@@ -117,70 +117,70 @@ function Results() {
             onClick={() => setSelectedSeverity("all")}
             className={`rounded-xl border p-4 text-left transition-all ${
               selectedSeverity === "all"
-                ? "border-primary bg-primary/10 shadow-sm"
-                : "border-border/80 bg-card/80 hover:border-primary/40"
+                ? "border-blue-500 bg-blue-50 shadow-sm"
+                : "border-slate-200 bg-white hover:border-blue-300"
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-600">
               <span>Total Findings</span>
-              <AlertTriangle className="h-4 w-4 text-primary" />
+              <AlertTriangle className="h-4 w-4 text-blue-600" />
             </div>
-            <p className="mt-2 font-sans text-3xl font-extrabold text-foreground">{allFindings.length}</p>
-            <p className="mt-1 text-[11px] text-muted-foreground">Across 4 audited devices</p>
+            <p className="mt-2 font-sans text-3xl font-extrabold text-slate-900">{allFindings.length}</p>
+            <p className="mt-1 text-[11px] text-slate-500">Across 4 audited devices</p>
           </button>
 
           <button
             onClick={() => setSelectedSeverity("critical")}
             className={`rounded-xl border p-4 text-left transition-all ${
               selectedSeverity === "critical"
-                ? "border-crit bg-crit/15 shadow-sm"
-                : "border-crit/30 bg-crit/5 hover:border-crit/60"
+                ? "border-red-500 bg-red-50 shadow-sm"
+                : "border-red-200 bg-red-50/50 hover:border-red-300"
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-crit">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-red-600">
               <span>Critical Risk</span>
-              <XCircle className="h-4 w-4 text-crit" />
+              <XCircle className="h-4 w-4 text-red-600" />
             </div>
-            <p className="mt-2 font-sans text-3xl font-extrabold text-crit">
+            <p className="mt-2 font-sans text-3xl font-extrabold text-red-600">
               {allFindings.filter((f) => f.severity === "critical").length}
             </p>
-            <p className="mt-1 text-[11px] text-crit/80">Immediate patch required</p>
+            <p className="mt-1 text-[11px] text-red-500">Immediate patch required</p>
           </button>
 
           <button
             onClick={() => setSelectedSeverity("high")}
             className={`rounded-xl border p-4 text-left transition-all ${
               selectedSeverity === "high"
-                ? "border-warn bg-warn/20 shadow-sm"
-                : "border-warn/30 bg-warn/5 hover:border-warn/60"
+                ? "border-amber-500 bg-amber-50 shadow-sm"
+                : "border-amber-200 bg-amber-50/50 hover:border-amber-300"
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-warn-strong">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-amber-600">
               <span>High Severity</span>
-              <AlertTriangle className="h-4 w-4 text-warn-strong" />
+              <AlertTriangle className="h-4 w-4 text-amber-600" />
             </div>
-            <p className="mt-2 font-sans text-3xl font-extrabold text-warn-strong">
+            <p className="mt-2 font-sans text-3xl font-extrabold text-amber-600">
               {allFindings.filter((f) => f.severity === "high").length}
             </p>
-            <p className="mt-1 text-[11px] text-warn-strong/80">Significant policy gaps</p>
+            <p className="mt-1 text-[11px] text-amber-500">Significant policy gaps</p>
           </button>
 
           <button
             onClick={() => setSelectedSeverity("medium")}
             className={`rounded-xl border p-4 text-left transition-all ${
               selectedSeverity === "medium"
-                ? "border-accent-cyan bg-accent-cyan/15 shadow-sm"
-                : "border-accent-cyan/30 bg-accent-cyan/5 hover:border-accent-cyan/60"
+                ? "border-sky-500 bg-sky-50 shadow-sm"
+                : "border-sky-200 bg-sky-50/50 hover:border-sky-300"
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-accent-cyan">
+            <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-sky-600">
               <span>Medium / Low</span>
-              <AlertTriangle className="h-4 w-4 text-accent-cyan" />
+              <AlertTriangle className="h-4 w-4 text-sky-600" />
             </div>
-            <p className="mt-2 font-sans text-3xl font-extrabold text-accent-cyan">
+            <p className="mt-2 font-sans text-3xl font-extrabold text-sky-600">
               {allFindings.filter((f) => f.severity === "medium" || f.severity === "low").length}
             </p>
-            <p className="mt-1 text-[11px] text-accent-cyan/80">Recommended hardening</p>
+            <p className="mt-1 text-[11px] text-sky-500">Recommended hardening</p>
           </button>
         </div>
 

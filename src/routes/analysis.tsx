@@ -124,32 +124,32 @@ function Analysis() {
         });
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-foreground selection:bg-blue-100 selection:text-blue-900">
       <AppNavbar currentPath="/analysis" />
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
         {/* Header Title */}
         <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-ai/30 bg-ai/10 px-3 py-0.5 font-mono text-xs font-semibold text-ai mb-2">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-200 bg-purple-50 px-3 py-0.5 font-mono text-xs font-semibold text-purple-600 mb-2">
               <Brain className="h-3.5 w-3.5" />
               <span>Semantic AI Engine</span>
             </div>
-            <h1 className="font-sans text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <h1 className="font-sans text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
               AI Configuration Analysis
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-slate-600">
               Deep inspection of proprietary syntax, semantic normalization, and deterministic security control extraction.
             </p>
           </div>
 
           {/* Vendor Selector */}
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs text-muted-foreground">Device Preset:</span>
+            <span className="font-mono text-xs text-slate-600">Device Preset:</span>
             <select
               value={selectedVendor}
               onChange={(e) => setSelectedVendor(e.target.value as any)}
-              className="rounded-lg border border-border/80 bg-card px-3 py-1.5 font-mono text-xs font-semibold text-foreground focus:border-primary focus:outline-none"
+              className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs font-semibold text-slate-700 focus:border-blue-500 focus:outline-none"
             >
               <option value="cisco">Cisco IOS (Router-01)</option>
               <option value="fortinet">Fortinet FortiOS (Edge-02)</option>
@@ -160,23 +160,23 @@ function Analysis() {
         </div>
 
         {/* AI Philosophy Banner */}
-        <div className="relative mb-8 overflow-hidden rounded-2xl border border-ai/30 bg-gradient-to-r from-ai/15 via-card to-card p-6 shadow-soft sm:p-7 backdrop-blur-md">
+        <div className="relative mb-8 overflow-hidden rounded-2xl border border-purple-200 bg-gradient-to-r from-purple-50 via-white to-white p-6 shadow-sm sm:p-7">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-ai/40 bg-ai/20 text-ai shadow-inner">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-purple-200 bg-purple-50 text-purple-600 shadow-sm">
                 <Brain className="h-6 w-6" />
               </div>
               <div className="space-y-1">
-                <h3 className="font-sans text-base font-bold text-foreground sm:text-lg">
+                <h3 className="font-sans text-base font-bold text-slate-900 sm:text-lg">
                   AI Interprets. Humans Validate. Deterministic Rules Decide.
                 </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed max-w-2xl">
+                <p className="text-xs text-slate-600 leading-relaxed max-w-2xl">
                   NetSage avoids black-box decision making. Machine learning is restricted strictly to semantic parameter mapping, while audit pass/fail decisions remain 100% verifiable and compliant with industry standards.
                 </p>
               </div>
             </div>
 
-            <span className="shrink-0 rounded-full border border-pass/30 bg-pass/10 px-3 py-1 font-mono text-xs font-semibold text-pass">
+            <span className="shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 font-mono text-xs font-semibold text-emerald-600">
               ✓ Deterministic Decision Core
             </span>
           </div>

@@ -21,24 +21,24 @@ export function StatCard({
 }) {
   const tones = {
     default: {
-      card: "border-border/80 bg-card/80 hover:border-primary/40",
-      iconBg: "bg-primary/10 text-primary border-primary/20",
+      card: "border-slate-200 bg-white hover:border-blue-300 hover:shadow-md",
+      iconBg: "bg-blue-50 text-blue-600 border-blue-200",
     },
     ai: {
-      card: "border-ai/30 bg-gradient-to-br from-ai/10 via-card to-card hover:border-ai/60",
-      iconBg: "bg-ai/15 text-ai border-ai/30",
+      card: "border-purple-200 bg-white hover:border-purple-300 hover:shadow-md",
+      iconBg: "bg-purple-50 text-purple-600 border-purple-200",
     },
     pass: {
-      card: "border-pass/30 bg-gradient-to-br from-pass/10 via-card to-card hover:border-pass/60",
-      iconBg: "bg-pass/15 text-pass border-pass/30",
+      card: "border-emerald-200 bg-white hover:border-emerald-300 hover:shadow-md",
+      iconBg: "bg-emerald-50 text-emerald-600 border-emerald-200",
     },
     warn: {
-      card: "border-warn/30 bg-gradient-to-br from-warn/10 via-card to-card hover:border-warn/60",
-      iconBg: "bg-warn/15 text-warn-strong border-warn/30",
+      card: "border-amber-200 bg-white hover:border-amber-300 hover:shadow-md",
+      iconBg: "bg-amber-50 text-amber-600 border-amber-200",
     },
     crit: {
-      card: "border-crit/30 bg-gradient-to-br from-crit/10 via-card to-card hover:border-crit/60",
-      iconBg: "bg-crit/15 text-crit border-crit/30",
+      card: "border-red-200 bg-white hover:border-red-300 hover:shadow-md",
+      iconBg: "bg-red-50 text-red-600 border-red-200",
     },
   };
 
@@ -86,23 +86,23 @@ export function StatCard({
 export function SeverityBadge({ severity }: { severity: Severity }) {
   const map: Record<Severity, { badge: string; dot: string; text: string }> = {
     critical: {
-      badge: "bg-crit/15 text-crit border-crit/40 shadow-sm shadow-crit/10",
-      dot: "bg-crit animate-ping",
+      badge: "bg-red-50 text-red-600 border-red-200",
+      dot: "bg-red-500 animate-ping",
       text: "CRITICAL",
     },
     high: {
-      badge: "bg-warn/20 text-warn-strong border-warn/50 shadow-sm shadow-warn/10",
-      dot: "bg-warn-strong",
+      badge: "bg-amber-50 text-amber-600 border-amber-200",
+      dot: "bg-amber-500",
       text: "HIGH",
     },
     medium: {
-      badge: "bg-accent-cyan/15 text-accent-cyan border-accent-cyan/40",
-      dot: "bg-accent-cyan",
+      badge: "bg-sky-50 text-sky-600 border-sky-200",
+      dot: "bg-sky-500",
       text: "MEDIUM",
     },
     low: {
-      badge: "bg-muted/80 text-muted-foreground border-border",
-      dot: "bg-muted-foreground",
+      badge: "bg-slate-100 text-slate-600 border-slate-200",
+      dot: "bg-slate-400",
       text: "LOW",
     },
   };
@@ -126,15 +126,15 @@ export function SeverityBadge({ severity }: { severity: Severity }) {
 export function StatusPill({ status }: { status: ControlStatus }) {
   const map: Record<ControlStatus, { cls: string; text: string }> = {
     valid: {
-      cls: "bg-pass/15 text-pass border-pass/40 shadow-sm shadow-pass/10",
+      cls: "bg-emerald-50 text-emerald-600 border-emerald-200",
       text: "✓ Valid",
     },
     review: {
-      cls: "bg-warn/20 text-warn-strong border-warn/40",
+      cls: "bg-amber-50 text-amber-600 border-amber-200",
       text: "⚠ Needs Review",
     },
     failed: {
-      cls: "bg-crit/15 text-crit border-crit/40 shadow-sm shadow-crit/10",
+      cls: "bg-red-50 text-red-600 border-red-200",
       text: "✕ Failed",
     },
   };
